@@ -73,7 +73,7 @@ In ecs.tf and ecf.tfvars you can find the example on how to use the modules to a
 Quick way to create this from the repository as is:
 
 ```bash
-terraform get && terraform plan -input=false -var-file=ecs.tfvars
+terraform get && terraform apply -input=false -var-file=ecs.tfvars
 ```
 
 Actual way for creating eveyrthing is the default terraform flow:
@@ -96,17 +96,17 @@ This ECS module allows you to use an AWS SSH key to be able to access the instan
 
 ### ECS configuration
 
-ECS is configured using the '/etc/ecs/ecs.config' file as you can see [here][8]. There are two important configurations in this file. One is the ECS cluster name so that it can connect to the cluster, this should be specified from terraform because you want this to be variable. The other one is access to Docker Hub to be able to access private repositories. To do this safely use an S3 bucket that contains the Docker Hub configuration. See the 'ecs_config' variable in the 'ecs_instances' module for an example.
+ECS is configured using the */etc/ecs/ecs.config* file as you can see [here][8]. There are two important configurations in this file. One is the ECS cluster name so that it can connect to the cluster, this should be specified from terraform because you want this to be variable. The other one is access to Docker Hub to be able to access private repositories. To do this safely use an S3 bucket that contains the Docker Hub configuration. See the *ecs_config* variable in the *ecs_instances* module for an example.
 
 ### Logging
 
 All the default system logs like Docker or ECS agent should go to CloudWatch as configured in here. The ECS container logs can be pushed to CloudWatch as well but it is better to push these logs to a service like [ElasticSearch][9]. CloudWatch does support search and alerts but is nowhere as powerful as ElasticSearch or other log services.
 
-The [ECS configuration](#ecs-configuration) as described here allows configuration of additional [Docker log drivers][10] to be configured. For example fluentd as shown in the 'ecs_logging' variable in the 'ecs_instances' module.
+The [ECS configuration](#ecs-configuration) as described here allows configuration of additional [Docker log drivers][10] to be configured. For example fluentd as shown in the *ecs_logging* variable in the *ecs_instances* module.
 
 ### ECS instances
 
-Normally there is only one group of instances like configured here. But it is possible to use the 'ecs_instances' module to add more groups of different type of instances or to be used for different deployment. This makes it possible to have multiple different types of instances with different scaling options.
+Normally there is only one group of instances like configured here. But it is possible to use the *ecs_instances* module to add more groups of different type of instances or to be used for different deployment. This makes it possible to have multiple different types of instances with different scaling options.
 
 ### LoadBalancer
 
