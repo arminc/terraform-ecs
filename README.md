@@ -1,6 +1,6 @@
 # AWS ECS
 
-This repository contains the Terraform module for creating production ready ECS in AWS. 
+This repository contains the Terraform module for creating production ready ECS in AWS.
 
 * [What is ECS?](#what-is-ecs)
 * [ECS infrastructure in AWS](#ecs-infra)
@@ -10,22 +10,22 @@ This repository contains the Terraform module for creating production ready ECS 
 
 ## What is ECS
 
-ECS stands for EC2 Container Service and is the AWS platform for running Docker containers. 
-The full documentation about ECS can be found [here][1], the development guide can be found [here][2]. A more fun read: [The Hitchhiker's Guide to AWS ECS and Docker][7]
+ECS stands for EC2 Container Service and is the AWS platform for running Docker containers.
+The full documentation about ECS can be found [here][1], the development guide can be found [here][2]. A more fun read can be found at [The Hitchhiker's Guide to AWS ECS and Docker][7]
 
-This repository is not about comparing ECS against other solutions but to understand ECS it is good to state the obvious differences and that is all that this is.
-
-ECS can be compared with [Kubernetes][3] or [DC/OS Mesos][4]. The biggest two differences between ECS and the other two are that ECS can not be run on-prem and it lacks advanced features. These two differences can either been seen as weakness or as strengths.
+To understand ECS it is good to state the obvious differences against the competitors like [Kubernetes][3] or [DC/OS Mesos][4]. The mayor differences are that ECS can not be run on-prem and that it lacks advanced features. These two differences can either been seen as weakness or as strengths.
 
 ### AWS specific
 
-You can not run ECS on-prem because it is an AWS service and not installable software. This makes it easier to maintain and to setup, than hosting your own Kubernetes or Mesos on-prem or in the cloud. Although it is a service it's not the same as [Google hosted Kubernetes][5]. Why? Google really offers Kubernetes as a SAAS, you don't manage anything on the infra part while ECS actually requires slaves and therefore infra. What is the difference between running your own Kubernetes or Mesos? The lack of maintenance of the master nodes. You are only responsible for allowing the EC2 nodes to connect to ECS and ECS does the rest. Making the ECS slave nodes replaceable and allowing low maintenance by using standard AWS ECS optimized OS and other building blocks like autoscale etc..
+You can not run ECS on-prem because it is an AWS service and not installable software. This makes it easier to maintain and setup than hosting your own Kubernetes or Mesos on-prem or in the cloud. Although it is a service it's not the same as [Google hosted Kubernetes][5]. Why? Google really offers Kubernetes as a SAAS, you don't manage any infrastructure while ECS actually requires slaves and therefore infrastructure.
+
+What is the difference between running your own Kubernetes or Mesos? That is the lack of maintenance of the master nodes. You are only responsible for allowing the EC2 nodes to connect to ECS and ECS does the rest. This makes the ECS slave nodes replaceable and allows for low maintenance by using the standard AWS ECS optimized OS and other building blocks like autoscale etc..
 
 ### Advanced features
 
 Although it misses some advanced features ECS plays well with other AWS services to provide simple but powerful deployments. This makes the learning curve less high for DevOps teams to run their own infrastructure. You could argue that if you are trying to do complex stuff in ECS you are either making it unnecessary complex or ECS does not fit your needs.
 
-Having said that ECS does have a possibility to be used like a Kubernetes or Mesos by using [Blox][6]. Blox is essentially a set of tools that allow you to do advanced stuff with ECS.
+Having said that ECS does have a possibility to be used like a Kubernetes or Mesos by using [Blox][6]. Blox is essentially a set of tools that allows more control on the cluster and advanced deployment strategies.
 
 ## ECS infra
 
@@ -52,6 +52,8 @@ Creating one big module does not really give a benefit of modules. Therefore the
 
 Details regarding how a module works or why it is setup is described in the module itself if needed.
 
+Modules need to be used to create infrastructure. For an example on how to use the modules to create a working ECS cluster see *ecs.tf* and *ecf.tfvars*.
+
 ### Conventions
 
 These are the conventions we have in every module
@@ -68,7 +70,7 @@ These are the conventions we have in every module
 
 ## Create it
 
-In ecs.tf and ecf.tfvars you can find the example on how to use the modules to actually create a working ECS cluster.
+To create a working ECS cluster from this respository see *ecs.tf* and *ecf.tfvars*.
 
 Quick way to create this from the repository as is:
 
@@ -76,7 +78,7 @@ Quick way to create this from the repository as is:
 terraform get && terraform apply -input=false -var-file=ecs.tfvars
 ```
 
-Actual way for creating eveyrthing is the default terraform flow:
+Actual way for creating everything using the default terraform flow:
 
 ```bash
 terraform get
@@ -85,8 +87,6 @@ terraform apply -input=false -var-file=ecs.tfvars
 ```
 
 ## Must know
-
-Describe the things that you should know... Lessons learned
 
 ### SSH access to the instances
 
@@ -100,7 +100,7 @@ ECS is configured using the */etc/ecs/ecs.config* file as you can see [here][8].
 
 ### Logging
 
-All the default system logs like Docker or ECS agent should go to CloudWatch as configured in here. The ECS container logs can be pushed to CloudWatch as well but it is better to push these logs to a service like [ElasticSearch][9]. CloudWatch does support search and alerts but is nowhere as powerful as ElasticSearch or other log services.
+All the default system logs like Docker or ECS agent should go to CloudWatch as configured in here. The ECS container logs can be pushed to CloudWatch as well but it is better to push these logs to a service like [ElasticSearch][9]. CloudWatch does support search and alerts but it is nowhere as powerful as ElasticSearch or other log services.
 
 The [ECS configuration](#ecs-configuration) as described here allows configuration of additional [Docker log drivers][10] to be configured. For example fluentd as shown in the *ecs_logging* variable in the *ecs_instances* module.
 
@@ -115,6 +115,19 @@ It is possible to use the Application LoadBalancer and the Classic LoadBalancer 
 ## TODO
 
 * Try and see if it is possible to use AWS commands instead of SSH access to the instances
+* Show to use use and add a bastion server to the infrastructure
+* Show an example on how to use fluentd to push logs to ElasticSearch
+* Show how to use ELB instead of the ALB
+* Show how to add an database like RDS tot the infrastructure
+* Create a deployment user with proper permisions
+* Show how to get EC2 and container metrics to prometheus
+* Show how to use CloudWatch alarms to detect failing (loop) deployments
+* Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
+* Explain and show an example of custom boot commands
+* Explain why we use the word "default" when creating a cluster
+* Eplain the strategy for updating ECS nodes and keeping up with security
+* Show how to enable SSL everywhere
+* Show an example on how to make a deployment
 
 
     [1]: https://aws.amazon.com/ecs/
