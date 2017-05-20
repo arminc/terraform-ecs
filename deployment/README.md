@@ -18,7 +18,7 @@ The Task Definition documentation can be found [here][1] and the Service Definit
 
 ### Register a Task Definition
 
-To deploy an application to ECS for the first time we need to register a Task Definition, you can see an example [here][td-nginx.json]:
+To deploy an application to ECS for the first time we need to register a Task Definition, you can see an example [here](td-nginx.json):
 
 ```json
 {
@@ -49,7 +49,7 @@ aws ecs register-task-definition --cli-input-json file://td-nginx.json
 
 ### Create a Service Definition
 
-To actually run the container we need a Service, to create a service we need the Service Definition like [here][service-create-nginx.json]:
+To actually run the container we need a Service, to create a service we need the Service Definition like [here](service-create-nginx.json):
 
 ```json
 {
@@ -90,7 +90,7 @@ When we want to deploy a new version of a container we need to update the Task D
 
 ### Update a Service Definition
 
-Because we already have a service we can not create a new one we need to update it. That means we are telling the service to update our Task Definition from revision X to revision Y. Therefore we just need to provide a small set of information to the service as it can be seen [here][service-update-nginx.json]:
+Because we already have a service we can not create a new one we need to update it. That means we are telling the service to update our Task Definition from revision X to revision Y. Therefore we just need to provide a small set of information to the service as it can be seen [here](service-update-nginx.json):
 
 ```json
 {
