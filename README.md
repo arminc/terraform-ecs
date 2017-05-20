@@ -115,6 +115,12 @@ Normally there is only one group of instances like configured here. But it is po
 
 It is possible to use the Application LoadBalancer and the Classic LoadBalancer with this setup. The default configuration is Application LoadBalancer because that makes more sense in combination with ECS. There is also a concept of [Internal and External facing LB](deployment/README.md#internal-vs-external)
 
+### Using 'default'
+
+The philosophy is that the modules should provide as much as posible of sane defaults. That way when using the modules it is possible to quickly configure them but still change when needed. That is also why we introduced something like a name 'default' as the default value for some of the components. Another rease behind it is that you don't need to come up with names when you probably might only have one cluster in your enviourment.
+
+Looking at [ecs.tf](ecs.tf) it might give you a different impression, but there we configure more things than needed to show it can be done.
+
 ## TODO
 
 * Try and see if it is possible to use AWS commands instead of SSH access to the instances
@@ -127,7 +133,6 @@ It is possible to use the Application LoadBalancer and the Classic LoadBalancer 
 * Show how to use CloudWatch alarms to detect failing (loop) deployments
 * Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
 * Explain and show an example of custom boot commands
-* Explain why we use the word "default" when creating a cluster
 * Explain the strategy for updating ECS nodes (EC2 node draining)
 * Explain service discovery/deployment strategy (One or more ECS clusters)
 

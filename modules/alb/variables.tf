@@ -1,4 +1,5 @@
 variable "alb_name" {
+  default     = "default"
   description = "The name of the loadbalancer"
 }
 
@@ -16,14 +17,14 @@ variable "vpc_id" {
 }
 
 variable "deregistration_delay" {
-  default = "300"
+  default     = "300"
+  description = "The default deregistration delay"
 }
 
 variable "health_check_path" {
-  default = "/"
+  default     = "/"
+  description = "The default health check path"
 }
-
-#variable "certificate_arn" {}
 
 variable "allow_cidr_block" {
   default     = "0.0.0.0/0"

@@ -20,19 +20,23 @@ variable "aws_ami" {
 }
 
 variable "instance_type" {
+  default     = "t2.micro"
   description = "AWS instance type to use"
 }
 
 variable "max_size" {
+  default     = 1
   description = "Maximum size of the nodes in the cluster"
 }
 
 variable "min_size" {
+  default     = 1
   description = "Minimum size of the nodes in the cluster"
 }
 
 #For more explenation see http://docs.aws.amazon.com/autoscaling/latest/userguide/WhatIsAutoScaling.html
 variable "desired_capacity" {
+  default     = 1
   description = "The desired capacity of the cluster"
 }
 
