@@ -107,6 +107,8 @@ All the default system logs like Docker or ECS agent should go to CloudWatch as 
 
 The [ECS configuration](#ecs-configuration) as described here allows configuration of additional [Docker log drivers][10] to be configured. For example fluentd as shown in the *ecs_logging* variable in the *ecs_instances* module.
 
+Be aware when creating two clusters in one AWS account on CloudWatch log group collision, [read the info](modules/ecs_instances/cloudwatch.tf).
+
 ### ECS instances
 
 Normally there is only one group of instances like configured here. But it is possible to use the *ecs_instances* module to add more groups of different type of instances or to be used for different deployment. This makes it possible to have multiple different types of instances with different scaling options.

@@ -2,6 +2,11 @@ variable "environment" {
   description = "The name of the environment"
 }
 
+variable "cloudwatch_suffix" {
+  default     = ""
+  description = "If you want to avoid cloudwatch collision or you don't want to merge all logs to one log group specify a suffix"
+}
+
 variable "cluster" {
   description = "The name of the cluster"
 }
