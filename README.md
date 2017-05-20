@@ -113,7 +113,7 @@ Normally there is only one group of instances like configured here. But it is po
 
 ### LoadBalancer
 
-It is possible to use the Application LoadBalancer and the Classic LoadBalancer with this setup. The default configuration is Application LoadBalancer because that makes more sense in combination with ECS.
+It is possible to use the Application LoadBalancer and the Classic LoadBalancer with this setup. The default configuration is Application LoadBalancer because that makes more sense in combination with ECS. There is also a concept of [Internal and External facing LB](deployment/README.md#internal-vs-external)
 
 ## TODO
 
