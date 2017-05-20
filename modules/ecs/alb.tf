@@ -2,7 +2,7 @@ module "alb" {
   source = "../alb"
 
   environment       = "${var.environment}"
-  alb_name          = "${var.environment}${var.cluster}"
+  alb_name          = "${var.environment}-${var.cluster}"
   vpc_id            = "${module.network.vpc_id}"
   public_subnet_ids = "${module.network.public_subnet_ids}"
 }

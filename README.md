@@ -118,7 +118,7 @@ It is possible to use the Application LoadBalancer and the Classic LoadBalancer 
 ## TODO
 
 * Try and see if it is possible to use AWS commands instead of SSH access to the instances
-* Show to use use and add a bastion server to the infrastructure
+* Show how to use and add a bastion server to the infrastructure
 * Show an example on how to use fluentd to push logs to ElasticSearch
 * Show how to use ELB instead of the ALB
 * Show how to add an database like RDS tot the infrastructure
