@@ -17,6 +17,8 @@ The Task definition documentation can be found [here][1] and the Service definit
 
 ## Initial deployment
 
+[Automated process](#automated-deployments)
+
 ### Register a Task definition
 
 To deploy an application to ECS for the first time we need to register a Task definition, you can see an example [here](td-nginx.json):
@@ -87,6 +89,8 @@ aws ecs create-service --cli-input-json file://service-create-nginx.json
 
 ## New version deployment
 
+[Automated process](#automated-deployments)
+
 When we want to deploy a new version of a container we need to update the Task definition and register a new revision. This is done exactly as described in [Register a Task definition](#register-a-task-definition)
 
 ### Update a Service definition
@@ -138,11 +142,26 @@ AWS has a concept of having a external or internal facing LB (LoadBalancer), as 
 
 The internal facing LB can be very interesting for connecting microservices without using any complicated service discovery.
 
+### Automated deployments
+
+Although it is posible to deploy manualy trough AWS console or executing the above commands by your self, it makes more sense to automate this process. It is posible to use one of the following scripts <https://github.com/silinternational/ecs-deploy>
+Or apply KISS and do something like this:
+
+To do an initial deployment:
+
+```bash
+./deploy.sh CONTAINER_VERSION=nginx:alpine create
+```
+
+To do an update deployment:
+
+```bash
+./deploy.sh CONTAINER_VERSION=nginx:alpine update
+```
+
 ## TODO
 
 * Show how to push logs to CloudWatch
-* Explain how to automate deployment by linking to ECS deployment scripts
-* Explain the deployment strategies
 
 
     [1]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html

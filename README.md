@@ -129,7 +129,7 @@ It is possible to use the Application LoadBalancer and the Classic LoadBalancer 
 * Explain and show an example of custom boot commands
 * Explain why we use the word "default" when creating a cluster
 * Explain the strategy for updating ECS nodes (EC2 node draining)
-* Explain service discovery strategy
+* Explain service discovery/deployment strategy (One or more ECS clusters)
 
 
     [1]: https://aws.amazon.com/ecs/
