@@ -132,13 +132,17 @@ The listener is the actual port that is exposed to the outside world. For the li
 
 The Task definition is global on AWS. It means that when you create a Task definition with the name *test* you can not remove it. Even when you get rid of it in the UI the next time you create a Task definition with the name *test* it will have a revision number that is +1 of the previous version.
 
+### Internal vs External
+
+AWS has a concept of having a external or internal facing LB (LoadBalancer), as can be read [here][7] External facing means available on the internet and is probably the most used one. The internal one is not available on the internet but only inside your VPC.
+
+The internal facing LB can be very interesting for connecting microservices without using any complicated service discovery.
+
 ## TODO
 
-* Explain LB external and internal
 * Show how to push logs to CloudWatch
 * Explain how to automate deployment by linking to ECS deployment scripts
 * Explain the deployment strategies
-* Explain service discovery strategy
 
 
     [1]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
@@ -147,3 +151,4 @@ The Task definition is global on AWS. It means that when you create a Task defin
     [4]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service_definition_paramters.html
     [5]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html
     [6]: http://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html
+    [7]: http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-internal-load-balancers.html
