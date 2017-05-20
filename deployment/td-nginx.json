@@ -1,0 +1,16 @@
+{
+  "family": "nginx",
+  "containerDefinitions": [
+    {
+      "name": "nginx",
+      "image": "nginx:alpine",
+      "memory": 128,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "protocol": "tcp"
+        }
+      ]    
+    }
+  ]
+}

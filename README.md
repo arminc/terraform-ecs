@@ -6,6 +6,7 @@ This repository contains the Terraform module for creating production ready ECS 
 * [ECS infrastructure in AWS](#ecs-infra)
 * [ECS Terraform module](#terraform-mpdule)
 * [How to create the infrastructure](#create-it)
+* [ECS Deployment](deployment/README.md)
 * [Things you should know](#must-know)
 
 ## What is ECS
@@ -127,9 +128,7 @@ It is possible to use the Application LoadBalancer and the Classic LoadBalancer 
 * Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
 * Explain and show an example of custom boot commands
 * Explain why we use the word "default" when creating a cluster
-* Eplain the strategy for updating ECS nodes and keeping up with security
-* Show how to enable SSL everywhere
-* Show an example on how to make a deployment
+* Eplain the strategy for updating ECS nodes (EC2 node draining)
 
 
     [1]: https://aws.amazon.com/ecs/
