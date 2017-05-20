@@ -8,17 +8,18 @@
 
 ## Deployment
 
-Deployment process on ECS consists of two steps. First one is registering a Task Definition that holds the information about what container you want to start and what the requirements are like memory and port. The second step is creating of updating a Service Definition which defines a Service which eventually uses the Task Definition to start the containers on ECS and keeps them running.
+Deployment process on ECS consists of two steps.
+The first step is registering a Task definition that holds the information about what container you want to start and what the requirements are. For instance memory, cpu or port. The second step is creating or updating a Service definition which defines a Service which eventually uses the Task Definition to start the containers on ECS and keeps them running.
 
 ![Deployment](../img/deployment.png)
 
-The Task Definition documentation can be found [here][1] and the Service Definition documentation can be found [here][2]
+The Task definition documentation can be found [here][1] and the Service definition documentation can be found [here][2]
 
 ## Initial deployment
 
-### Register a Task Definition
+### Register a Task definition
 
-To deploy an application to ECS for the first time we need to register a Task Definition, you can see an example [here](td-nginx.json):
+To deploy an application to ECS for the first time we need to register a Task definition, you can see an example [here](td-nginx.json):
 
 ```json
 {
@@ -39,17 +40,17 @@ To deploy an application to ECS for the first time we need to register a Task De
 }
 ```
 
-We are defining a Nginx docker container with 128 MB of memory and we are specifying the container listens on port 80. You can look at the Task Definition as a predefinition of the Docker run command without actually executing the run. For all possible Task Definition parameters have a look at the [documentation][3].
+We are defining a Nginx docker container with 128 MB of memory and we are specifying that the container is listening on port 80. You can look at the task definition as a predefinition of the Docker run command without actually executing the run. For all possible Task definition parameters have a look at the [documentation][3].
 
-This is the AWS cli command to create the Task Definition:
+This is the AWS cli command to create the Task definition:
 
 ```bash
 aws ecs register-task-definition --cli-input-json file://td-nginx.json
 ```
 
-### Create a Service Definition
+### Create a Service definition
 
-To actually run the container we need a Service, to create a service we need the Service Definition like [here](service-create-nginx.json):
+To actually run the container we need a Service, to create a service we need the Service definition like [here](service-create-nginx.json):
 
 ```json
 {
@@ -72,13 +73,13 @@ To actually run the container we need a Service, to create a service we need the
 }
 ```
 
-While the Task Definition is not aware of the environment the Service Definition definitely is. That is why we are specifying the *cluster* name and the *role*. For service to know which Task Definition to run we need to specify the *taskDefinition* arn. This can be found in AWS console under Task Definitions or you will get it when [Creating a Service Definition](#create-a-service-definition).
+While the Task definition is not aware of the environment the Service definition definitely is. That is why we are specifying the *cluster* name and the *role*. For service to know which Task definition to run we need to specify the *taskDefinition* arn. This can be found in AWS console under Task definitions or you will get it when [Registering a Task definition](#register-a-task-definition).
 
 We also need to provide a *targetGroupArn*, which is used to [Expose the service to the outside world](#alb-vs-elb)
 
-For all possible Service Definition parameters have a look at the [documentation][4].
+For all possible Service definition parameters have a look at the [documentation][4].
 
-This is the AWS cli command to create the Service Definition:
+This is the AWS cli command to create the Service definition:
 
 ```bash
 aws ecs create-service --cli-input-json file://service-create-nginx.json
@@ -86,11 +87,11 @@ aws ecs create-service --cli-input-json file://service-create-nginx.json
 
 ## New version deployment
 
-When we want to deploy a new version of a container we need to update the Task Definition and register a new revision. This is done exactly as described in [Create a Service Definition](#create-a-service-definition)
+When we want to deploy a new version of a container we need to update the Task definition and register a new revision. This is done exactly as described in [Register a Task definition](#register-a-task-definition)
 
-### Update a Service Definition
+### Update a Service definition
 
-Because we already have a service we can not create a new one we need to update it. That means we are telling the service to update our Task Definition from revision X to revision Y. Therefore we just need to provide a small set of information to the service as it can be seen [here](service-update-nginx.json):
+Because we already have a service we can not create a new one, we need to update it. That means we are telling the service to update our Task definition from revision X to revision Y. Therefore we just need to provide a small set of information to the service as it can be found [here](service-update-nginx.json):
 
 ```json
 {
@@ -105,7 +106,7 @@ Because we already have a service we can not create a new one we need to update 
 }
 ```
 
-This is the AWS cli command to update the Service Definition:
+This is the AWS cli command to update the Service definition:
 
 ```bash
 aws ecs update-service --cli-input-json file://service-update-nginx.json
@@ -113,7 +114,7 @@ aws ecs update-service --cli-input-json file://service-update-nginx.json
 
 ## ALB vs ELB
 
-The goal is not to deploy an application but to make it accessible to the outside world or the internal services. This can be done by using the ALB (Application LoadBalancer) or the ELB (Elastic LoadBalancer). The difference is that the ELB has no knowledge of ECS or containers. It just looks at the health of the EC2 node and exposes a predefined port of that node. 
+The goal is not to deploy an application but to make it accessible to the outside world or the internal services. This can be done by using the ALB (Application LoadBalancer) or the ELB (Elastic LoadBalancer). The difference is that the ELB has no knowledge of ontainers, it just looks at the health of the EC2 node and exposes a predefined port of that node.
 
 ALB is 'container' aware, in the sense that the containers get registered to the ALB and that the ALB exposes containers to the outside world instead of the EC2 node. This also means that you can have multiple containers of the same type on one EC2 node.
 
@@ -129,7 +130,7 @@ The listener is the actual port that is exposed to the outside world. For the li
 
 ### Task Definition global
 
-The Task Definition is global on AWS. It means when you create a Task Definition with the name *test* you can not remove it. Even when you get rid of it in the UI the next time you create a Task Definition with the name *test* it will have a revision number that is +1 of the previous version.
+The Task definition is global on AWS. It means that when you create a Task definition with the name *test* you can not remove it. Even when you get rid of it in the UI the next time you create a Task definition with the name *test* it will have a revision number that is +1 of the previous version.
 
 ## TODO
 
