@@ -54,6 +54,8 @@ Details regarding how a module works or why it is setup is described in the modu
 
 Modules need to be used to create infrastructure. For an example on how to use the modules to create a working ECS cluster see *ecs.tf* and *ecf.tfvars*.
 
+**Note** You need to use Terraform version 0.9.5 and above
+
 ### Conventions
 
 These are the conventions we have in every module
