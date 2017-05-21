@@ -183,20 +183,25 @@ Double the size of your cluster and your applications and when everything is up 
 
 The best option is to drain the containers from an ECS instance like described [here][16]. Then you can terminate the instance without disrupting your application users. This can be done by doubling the EC2 nodes instances in your cluster or just by one and doing this slowly one by one. Currently, there is no automated/scripted way to do this.
 
+### Service discovery
+
+ECS allows the use of [ALB and ELB](deployment/README.md#alb-vs-elb) facing [Internaly or Externaly](deployment/README.md#internal-vs-external) which allows for a simple but very effective service discovery. If you encounter the need to use external tools like consul etc... then you should ask yourself the question: Am I not making it to complex?
+
+Kubernetes and Mesos act like big clusters where they encourage you to deploy all kinds of things on the same cluster. ECS can do the same but it makes sense to group your applications to domains or logical groups and create separate ECS clusters for them. This has to do with the fact that you are not paying for the masters. You can still be in the same AWS account and the same VPC but on a separate cluster with separate instances.
+
 ## TODO
 
 * Don't use SSH use AWS remote commands like described [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ec2-run-command.html)
-* Use a Lambda to restart/monitor system containers
+* Use a Lambda to restart/monitor system containers, like [here](https://github.com/miketheman/ecs-host-service-scale)
 * Create a EC2 nodes update script to update all nodes without disruption
-* Show how to use and add a bastion server to the infrastructure
-* Show an example on how to use fluentd to push logs to ElasticSearch
-* Show how to use ELB instead of the ALB
-* Show how to add an database like RDS tot the infrastructure
-* Create a deployment user with proper permisions
 * Show how to get EC2 and container metrics to prometheus
-* Show how to use CloudWatch alarms to detect failing (loop) deployments
+* Show an example on how to use fluentd to push logs to ElasticSearch
+* Show how to use and add a bastion server to the infrastructure
+* Show how to use ELB instead of the ALB
+* Show how to add an database like RDS to the infrastructure
 * Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
-* Explain service discovery (One or more ECS clusters)
+* Create a deployment user with proper permisions
+* Show how to use CloudWatch alarms to detect failing (loop) deployments
 
 
     [1]: https://aws.amazon.com/ecs/
