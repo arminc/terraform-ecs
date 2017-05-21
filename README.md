@@ -197,14 +197,14 @@ When deploying manually we can see if the new container has started or is stuck 
 
 * Don't use SSH use AWS remote commands like described [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ec2-run-command.html)
 * Use a Lambda to restart/monitor system containers, like [here](https://github.com/miketheman/ecs-host-service-scale)
-* Create a EC2 nodes update script to update all nodes without disruption
-* Show how to get EC2 and container metrics to prometheus
+* Create an EC2 nodes update script to update all nodes without disruption
+* Show how to get EC2 and container metrics to Prometheus
 * Show an example on how to use fluentd to push logs to ElasticSearch
 * Show how to use and add a bastion server to the infrastructure
 * Show how to use ELB instead of the ALB
-* Show how to add an database like RDS to the infrastructure
+* Show how to add a database like RDS to the infrastructure
 * Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
-* Create a deployment user with proper permisions
+* Create a deployment user with proper permissions
 
 
     [1]: https://aws.amazon.com/ecs/
