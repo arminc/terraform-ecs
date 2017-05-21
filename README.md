@@ -123,9 +123,56 @@ The philosophy is that the modules should provide as much as posible of sane def
 
 Looking at [ecs.tf](ecs.tf) it might give you a different impression, but there we configure more things than needed to show it can be done.
 
+### ECS deployment strategies
+
+ECS has a lot of different ways to deploy or place a task in the cluster. You can have different placement strategies like random and binpack, see here for full [documentation][12]. Besides the placement strategies, it is also possible to specify constraints, as described [here][13]. The constraint allows for a more fine-grained placement of tasks on specific EC2 nodes, like *instance type* or custom attributes.
+
+What ECS does not have is a possibility to run a task on every EC2 node on boot, that's where [System containers & custom boot commands](#system-containers-&-custom-boot-commands) comes into place.
+
+### System containers & custom boot commands
+
+In some cases, it is necessary to have a system 'service' running that does a particular task, like gathering metrics. It is possible to add an OS specific service when booting an EC2 node but that means you are not portable. A better option is to have the 'service' run in a container and run the container as a 'service', also called a System container.
+
+ECS has different [deployment strategies](#ecs-deployment-strategies) but it does not have an option to run a system container on every EC2 node on boot. It is possible to do this via ECS workaround or via Docker.
+
+#### ECS workaround
+
+The ECS workaround is described here [Running an Amazon ECS Task on Every Instance][11]. It basically means use a Task definition and a custom boot script to start and register the task in ECS. This is awesome because it allows you to see the system container running in ECS console. The bad thing about it is that it does not restart the container when it crashes. It is possible to create a Lambda to listen to changes/exits of the system container and act on it. For example, start it again on the same EC2 node.
+
+#### Docker
+
+It is also possible to do the same thing by just running a docker run command on EC2 node on boot. To make sure the container keeps running we tell docker to restart the container on exit. The great thing about this method is that it is simple and you can use the 'errors' that can be caught in CloudWatch to alert when something bad happens.
+
+**Note:** Both of these methods have one big flaw and that is that you need to change the launch configuration and restart every EC2 node one by one to apply the changes. Most of the time this does not have to be a problem because the system containers don't change that often but is still an issue. It is possible to fix this in a better way with [Blox][6], but this also introduces more complexity. So it is a choice between simplicity and an explicit update flow or advanced usage with more complexity.
+
+Regardless which method you pick you will need to add a custom command on EC2 node on boot. This is already available in the module *ecs_instances* by using the *custom_userdata* variable. An example would look like this:
+
+```bash
+docker run \
+  --name=cadvisor \
+  --detach=true \
+  --publish 9200:8080 \
+  --publish=8080:8080 \
+  --memory="300m" \
+  --privileged=true \
+  --restart=always \
+  --volume=/:/rootfs:ro \
+  --volume=/cgroup:/cgroup:ro \
+  --volume=/var/run:/var/run:rw \
+  --volume=/sys:/sys:ro \
+  --volume=/var/lib/docker:/var/lib/docker:ro \
+  --log-driver=awslogs \
+  --log-opt=awslogs-region=eu-west-1 \
+  --log-opt=awslogs-group=cadvisor \
+  --log-opt=awslogs-stream=${cluster_name}/$container_instance_id \
+  google/cadvisor:v0.24.1
+}
+```
+
 ## TODO
 
 * Try and see if it is possible to use AWS commands instead of SSH access to the instances
+* Use a Lambda to restart/monitor system containers
 * Show how to use and add a bastion server to the infrastructure
 * Show an example on how to use fluentd to push logs to ElasticSearch
 * Show how to use ELB instead of the ALB
@@ -134,9 +181,8 @@ Looking at [ecs.tf](ecs.tf) it might give you a different impression, but there 
 * Show how to get EC2 and container metrics to prometheus
 * Show how to use CloudWatch alarms to detect failing (loop) deployments
 * Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
-* Explain and show an example of custom boot commands
 * Explain the strategy for updating ECS nodes (EC2 node draining)
-* Explain service discovery/deployment strategy (One or more ECS clusters)
+* Explain service discovery (One or more ECS clusters)
 
 
     [1]: https://aws.amazon.com/ecs/
@@ -149,3 +195,6 @@ Looking at [ecs.tf](ecs.tf) it might give you a different impression, but there 
     [8]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
     [9]: https://www.elastic.co/cloud
     [10]: https://docs.docker.com/engine/admin/logging/overview/
+    [11]: https://aws.amazon.com/blogs/compute/running-an-amazon-ecs-task-on-every-instance/
+    [12]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html
+    [13]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html
