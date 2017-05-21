@@ -169,10 +169,25 @@ docker run \
 }
 ```
 
+### EC2 node security and updates
+
+Because the EC2 nodes are created by us it means we need to make sure they are up to date and secure. It is possible to create an own AMI with your own OS, Docker, ECS agent and everything else. But it is much easier to use [ECS optimized AMIs][14] which are maintained by AWS with a secure AWS Linux, regular security patches, recommended versions of ECS agent and Docker and more...
+
+To know when to update your EC2 node you can subscribe to AWS ECS AMI updates, like described [here][15]. Note: We can not create a sample module for this because terraform does not support email protocol on SNS.
+
+If you need to perform an update you will need to update the information in the *ecs_instances* and then apply the changes on the cluster. This will only create a new *launch_configuration* but it will not touch the running instances. Therefore you need to replace your instances one by one. There are three ways to do this:
+
+Terminating the instances, but this may cause disruption to your application users. By Terminating an instance a new one will be started with the new *launch_configuration*
+
+Double the size of your cluster and your applications and when everything is up and running scale the cluster down. This might be a costly operation and you need also need to specify or protect the new instances so that the AWS auto scale does not terminate the new instances instead of the old ones.
+
+The best option is to drain the containers from an ECS instance like described [here][16]. Then you can terminate the instance without disrupting your application users. This can be done by doubling the EC2 nodes instances in your cluster or just by one and doing this slowly one by one. Currently, there is no automated/scripted way to do this.
+
 ## TODO
 
-* Try and see if it is possible to use AWS commands instead of SSH access to the instances
+* Don't use SSH use AWS remote commands like described [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ec2-run-command.html)
 * Use a Lambda to restart/monitor system containers
+* Create a EC2 nodes update script to update all nodes without disruption
 * Show how to use and add a bastion server to the infrastructure
 * Show an example on how to use fluentd to push logs to ElasticSearch
 * Show how to use ELB instead of the ALB
@@ -181,7 +196,6 @@ docker run \
 * Show how to get EC2 and container metrics to prometheus
 * Show how to use CloudWatch alarms to detect failing (loop) deployments
 * Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
-* Explain the strategy for updating ECS nodes (EC2 node draining)
 * Explain service discovery (One or more ECS clusters)
 
 
@@ -198,3 +212,6 @@ docker run \
     [11]: https://aws.amazon.com/blogs/compute/running-an-amazon-ecs-task-on-every-instance/
     [12]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html
     [13]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html
+    [14]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
+    [15]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS-AMI-SubscribeTopic.html
+    [16]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-draining.html
