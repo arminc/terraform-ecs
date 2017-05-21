@@ -15,6 +15,10 @@ The first step is registering a Task definition that holds the information about
 
 The Task definition documentation can be found [here][1] and the Service definition documentation can be found [here][2]
 
+### Deployment user
+
+Most deployments will be automatically, this means we need an ECS deployment user. See the [users module](../modules/users/main.tf) on how to create a proper user with proper rights. Be careful with *iam:PassRole* as described in the module, you could misuse it to give a task in ECS Admin rights.
+
 ## Initial deployment
 
 [Automated process](#automated-deployments)

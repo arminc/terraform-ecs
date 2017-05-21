@@ -204,7 +204,6 @@ When deploying manually we can see if the new container has started or is stuck 
 * Show how to use ELB instead of the ALB
 * Show how to add a database like RDS to the infrastructure
 * Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
-* Create a deployment user with proper permissions
 
 
     [1]: https://aws.amazon.com/ecs/
