@@ -8,6 +8,17 @@ This repository contains the Terraform module for creating production ready ECS 
 * [How to create the infrastructure](#create-it)
 * [ECS Deployment](deployment/README.md)
 * [Things you should know](#must-know)
+  * [SSH access to the instances](#ssh-access-to-the-instances)
+  * [ECS configuration](#ecs-configuration)
+  * [Logging](#Logging)
+  * [ECS instances](#ecs-instances)
+  * [LoadBalancer](#loadbalancer)
+  * [Using 'default'](#using-'default')
+  * [ECS deployment strategies](#ecs-deployment-strategies)
+  * [System containers & custom boot commands](#system-containers-&-custom-boot-commands)
+  * [EC2 node security and updates](#ecs2-node-security-and-updates)
+  * [Service discovery](#service-discovery)
+  * [ECS detect deployments failure](#ecs-detect-deployments-failure)
 
 ## What is ECS
 

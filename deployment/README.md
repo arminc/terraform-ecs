@@ -4,6 +4,9 @@
 * [Initial deployment](#initial-deployment)
 * [How to deploy a new version?](#new-version-deployment)
 * [Things you should know](#must-know)
+  * [Task Definition global](#task-definition-global)
+  * [Internal vs External](#internal-vs-external)
+  * [Automated deployments](#automated-deployments)
   * [Container secrets](#container-secrets)
 * [Expose the service to the outside world](#alb-vs-elb)
 
