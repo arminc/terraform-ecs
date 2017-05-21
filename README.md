@@ -13,7 +13,7 @@ This repository contains the Terraform module for creating production ready ECS 
   * [Logging](#Logging)
   * [ECS instances](#ecs-instances)
   * [LoadBalancer](#loadbalancer)
-  * [Using 'default'](#using-'default')
+  * [Using 'default'](#using-default)
   * [ECS deployment strategies](#ecs-deployment-strategies)
   * [System containers & custom boot commands](#system-containers-&-custom-boot-commands)
   * [EC2 node security and updates](#ecs2-node-security-and-updates)
@@ -128,7 +128,7 @@ Normally there is only one group of instances like configured here. But it is po
 
 It is possible to use the Application LoadBalancer and the Classic LoadBalancer with this setup. The default configuration is Application LoadBalancer because that makes more sense in combination with ECS. There is also a concept of [Internal and External facing LB](deployment/README.md#internal-vs-external)
 
-### Using 'default'
+### Using default
 
 The philosophy is that the modules should provide as much as posible of sane defaults. That way when using the modules it is possible to quickly configure them but still change when needed. That is also why we introduced something like a name 'default' as the default value for some of the components. Another rease behind it is that you don't need to come up with names when you probably might only have one cluster in your enviourment.
 
