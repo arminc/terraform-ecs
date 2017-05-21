@@ -4,7 +4,7 @@ This repository contains the Terraform module for creating production ready ECS 
 
 * [What is ECS?](#what-is-ecs)
 * [ECS infrastructure in AWS](#ecs-infra)
-* [ECS Terraform module](#terraform-mpdule)
+* [ECS Terraform module](#terraform-module)
 * [How to create the infrastructure](#create-it)
 * [ECS Deployment](deployment/README.md)
 * [Things you should know](#must-know)
@@ -189,6 +189,10 @@ ECS allows the use of [ALB and ELB](deployment/README.md#alb-vs-elb) facing [Int
 
 Kubernetes and Mesos act like big clusters where they encourage you to deploy all kinds of things on the same cluster. ECS can do the same but it makes sense to group your applications to domains or logical groups and create separate ECS clusters for them. This has to do with the fact that you are not paying for the masters. You can still be in the same AWS account and the same VPC but on a separate cluster with separate instances.
 
+### ECS detect deployments failure
+
+When deploying manually we can see if the new container has started or is stuck in a start/stop loop. But when deploying automatically this is not visible. To make sure we get alerted when containers start failing we need to watch for events from ECS who state that a container has STOPPED. This can be done by using the module [ecs_events](modules/ecs_events/main.tf). The only thing that is missing from the module is the actual alert. This is because terraform can't handle email and all other protocols for *aws_sns_topic_subscription* are specific per customer.
+
 ## TODO
 
 * Don't use SSH use AWS remote commands like described [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ec2-run-command.html)
@@ -201,7 +205,6 @@ Kubernetes and Mesos act like big clusters where they encourage you to deploy al
 * Show how to add an database like RDS to the infrastructure
 * Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
 * Create a deployment user with proper permisions
-* Show how to use CloudWatch alarms to detect failing (loop) deployments
 
 
     [1]: https://aws.amazon.com/ecs/
