@@ -203,7 +203,7 @@ When deploying manually we can see if the new container has started or is stuck 
 * Show how to use and add a bastion server to the infrastructure
 * Show how to use ELB instead of the ALB
 * Show how to add a database like RDS to the infrastructure
-* Show how to use AWS Parameter Store as a secure way of accessing secrets from containers
+* Show how to push logs to CloudWatch (Create proper role for task)
 
 
     [1]: https://aws.amazon.com/ecs/

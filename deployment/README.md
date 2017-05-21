@@ -4,6 +4,7 @@
 * [Initial deployment](#initial-deployment)
 * [How to deploy a new version?](#new-version-deployment)
 * [Things you should know](#must-know)
+  * [Container secrets](#container-secrets)
 * [Expose the service to the outside world](#alb-vs-elb)
 
 ## Deployment
@@ -163,9 +164,11 @@ To do an update deployment:
 ./deploy.sh CONTAINER_VERSION=nginx:alpine update
 ```
 
-## TODO
+### Container secrets
 
-* Show how to push logs to CloudWatch
+Almost all containers require some form of external values or secrets, like the database password or keys to another service. There are a lot of ways to do this, the simplest way when using ECS is by using AWS Parameter Store. Here is a [blog post][8] I wrote that describes different options and how to use AWS Parameter Store.
+
+To allow a task to access the Parameter Store you need a role that you can assing to your task. The [ecs roles module](../modules/ecs_roles/main.tf) can create such a role.
 
 
     [1]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
@@ -175,3 +178,4 @@ To do an update deployment:
     [5]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html
     [6]: http://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html
     [7]: http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-internal-load-balancers.html
+    [8]: http://blog.coralic.nl/2017/03/22/docker-container-secrets-on-aws-ecs/
