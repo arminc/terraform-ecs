@@ -173,12 +173,11 @@ Almost all containers require some form of external values or secrets, like the 
 
 To allow a task to access the Parameter Store you need a role that you can assing to your task. The [ecs roles module](../modules/ecs_roles/main.tf) can create such a role.
 
-
     [1]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
-    [2]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html
-    [3]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
-    [4]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service_definition_paramters.html
-    [5]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html
-    [6]: http://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html
-    [7]: http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-internal-load-balancers.html
-    [8]: http://blog.coralic.nl/2017/03/22/docker-container-secrets-on-aws-ecs/
+    [2]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html
+    [3]: https://kubernetes.io/
+    [4]: https://docs.mesosphere.com/
+    [5]: https://cloud.google.com/container-engine/
+    [6]: https://blox.github.io/
+    [7]: http://start.jcolemorrison.com/the-hitchhikers-guide-to-aws-ecs-and-docker/
+    [8]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
