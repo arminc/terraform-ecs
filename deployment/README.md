@@ -17,7 +17,7 @@ The first step is registering a Task definition that holds the information about
 
 ![Deployment](../img/deployment.png)
 
-The Task definition documentation can be found [here][1] and the Service definition documentation can be found [here][2]
+The Task definition documentation can be found [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html) and the Service definition documentation can be found [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html)
 
 ### Deployment user
 
@@ -50,7 +50,7 @@ To deploy an application to ECS for the first time we need to register a Task de
 }
 ```
 
-We are defining a Nginx docker container with 128 MB of memory and we are specifying that the container is listening on port 80. You can look at the task definition as a predefinition of the Docker run command without actually executing the run. For all possible Task definition parameters have a look at the [documentation][3].
+We are defining a Nginx docker container with 128 MB of memory and we are specifying that the container is listening on port 80. You can look at the task definition as a predefinition of the Docker run command without actually executing the run. For all possible Task definition parameters have a look at the [documentation](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html).
 
 This is the AWS cli command to create the Task definition:
 
@@ -87,7 +87,7 @@ While the Task definition is not aware of the environment the Service definition
 
 We also need to provide a *targetGroupArn*, which is used to [expose the service to the outside world](#alb-vs-elb)
 
-For all possible Service definition parameters have a look at the [documentation][4].
+For all possible Service definition parameters have a look at the [documentation](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service_definition_paramters.html).
 
 This is the AWS cli command to create the Service definition:
 
@@ -130,9 +130,9 @@ The goal is not to deploy an application but to make it accessible to the outsid
 
 ALB is 'container' aware, in the sense that the containers get registered to the ALB and that the ALB exposes containers to the outside world instead of the EC2 node. This also means that you can have multiple containers of the same type on one EC2 node.
 
-For a full overview have a look at the [documentation][5].
+For a full overview have a look at the [documentation](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html).
 
-This deployment example is looking at the ALB because that makes sense in a Docker platform world. It is good to know that the ALB consists of a Listener and a target group, as seen in the illustration below. The full documentation can be found [here][6].
+This deployment example is looking at the ALB because that makes sense in a Docker platform world. It is good to know that the ALB consists of a Listener and a target group, as seen in the illustration below. The full documentation can be found [here](http://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html).
 
 ![Deployment](../img/alb.png)
 
@@ -146,7 +146,7 @@ The Task definition is global on AWS. It means that when you create a Task defin
 
 ### Internal vs External
 
-AWS has a concept of having an external or internal facing LB (LoadBalancer), as can be read [here][7] External facing means available on the internet and is probably the most used one. The internal one is not available on the internet but only inside your VPC.
+AWS has a concept of having an external or internal facing LB (LoadBalancer), as can be read [here](http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-internal-load-balancers.html) External facing means available on the internet and is probably the most used one. The internal one is not available on the internet but only inside your VPC.
 
 The internal facing LB can be very interesting for connecting microservices without using any complicated service discovery.
 
@@ -169,15 +169,6 @@ To do an update deployment:
 
 ### Container secrets
 
-Almost all containers require some form of external values or secrets, like the database password or keys to another service. There are a lot of ways to do this, the simplest way when using ECS is by using AWS Parameter Store. Here is a [blog post][8] I wrote that describes different options and how to use AWS Parameter Store.
+Almost all containers require some form of external values or secrets, like the database password or keys to another service. There are a lot of ways to do this, the simplest way when using ECS is by using AWS Parameter Store. Here is a [blog post](http://blog.coralic.nl/2017/03/22/docker-container-secrets-on-aws-ecs/) I wrote that describes different options and how to use AWS Parameter Store.
 
 To allow a task to access the Parameter Store you need a role that you can assing to your task. The [ecs roles module](../modules/ecs_roles/main.tf) can create such a role.
-
-    [1]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
-    [2]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html
-    [3]: https://kubernetes.io/
-    [4]: https://docs.mesosphere.com/
-    [5]: https://cloud.google.com/container-engine/
-    [6]: https://blox.github.io/
-    [7]: http://start.jcolemorrison.com/the-hitchhikers-guide-to-aws-ecs-and-docker/
-    [8]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
