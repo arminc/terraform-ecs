@@ -108,7 +108,7 @@ You should not put your ECS instances directly on the internet. You should not a
 
 This ECS module allows you to use an AWS SSH key to be able to access the instances, for quick usage purposes the ecs.tf creates a new AWS SSH key. The private key can be found in the root of this repository with the name 'ecs_fake_private'
 
-For a new method see issue #1
+For a new method see issue [#1](https://github.com/arminc/terraform-ecs/issues/1)
 
 ### ECS configuration
 
@@ -116,7 +116,7 @@ ECS is configured using the */etc/ecs/ecs.config* file as you can see [here][8].
 
 ### Logging
 
-All the default system logs like Docker or ECS agent should go to CloudWatch as configured in this repository. The ECS container logs can be pushed to CloudWatch as well but it is better to push these logs to a service like [ElasticSearch][9]. CloudWatch does support search and alerts but with ElasticSearch or other log services you can use more advanced search and grouping.
+All the default system logs like Docker or ECS agent should go to CloudWatch as configured in this repository. The ECS container logs can be pushed to CloudWatch as well but it is better to push these logs to a service like [ElasticSearch][9]. CloudWatch does support search and alerts but with ElasticSearch or other log services you can use more advanced search and grouping. See issue [#5](https://github.com/arminc/terraform-ecs/issues/5)
 
 The [ECS configuration](#ecs-configuration) as described here allows configuration of additional [Docker log drivers][10] to be configured. For example fluentd as shown in the *ecs_logging* variable in the *ecs_instances* module.
 
@@ -150,7 +150,7 @@ ECS has different [deployment strategies](#ecs-deployment-strategies) but it doe
 
 #### ECS workaround
 
-The ECS workaround is described here [Running an Amazon ECS Task on Every Instance][11]. It basically means use a Task definition and a custom boot script to start and register the task in ECS. This is awesome because it allows you to see the system container running in ECS console. The bad thing about it is that it does not restart the container when it crashes. It is possible to create a Lambda to listen to changes/exits of the system container and act on it. For example, start it again on the same EC2 node. [Here][17] is an external repository that shows how to do that.
+The ECS workaround is described here [Running an Amazon ECS Task on Every Instance][11]. It basically means use a Task definition and a custom boot script to start and register the task in ECS. This is awesome because it allows you to see the system container running in ECS console. The bad thing about it is that it does not restart the container when it crashes. It is possible to create a Lambda to listen to changes/exits of the system container and act on it. For example, start it again on the same EC2 node. See issue [#2](https://github.com/arminc/terraform-ecs/issues/2)
 
 #### Docker
 
@@ -193,7 +193,7 @@ Terminating the instances, but this may cause disruption to your application use
 
 Double the size of your cluster and your applications and when everything is up and running scale the cluster down. This might be a costly operation and you also need to specify or protect the new instances so that the AWS auto scale does not terminate the new instances instead of the old ones.
 
-The best option is to drain the containers from an ECS instance like described [here][16]. Then you can terminate the instance without disrupting your application users. This can be done by doubling the EC2 nodes instances in your cluster or just by one and doing this slowly one by one. Currently, there is no automated/scripted way to do this.
+The best option is to drain the containers from an ECS instance like described [here][16]. Then you can terminate the instance without disrupting your application users. This can be done by doubling the EC2 nodes instances in your cluster or just by one and doing this slowly one by one. Currently, there is no automated/scripted way to do this. See issue [#3](https://github.com/arminc/terraform-ecs/issues/3)
 
 ### Service discovery
 
@@ -204,17 +204,6 @@ Kubernetes and Mesos act like a big cluster where they encourage you to deploy a
 ### ECS detect deployments failure
 
 When deploying manually we can see if the new container has started or is stuck in a start/stop loop. But when deploying automatically this is not visible. To make sure we get alerted when containers start failing we need to watch for events from ECS who state that a container has STOPPED. This can be done by using the module [ecs_events](modules/ecs_events/main.tf). The only thing that is missing from the module is the actual alert. This is because terraform can't handle email and all other protocols for *aws_sns_topic_subscription* are specific per customer.
-
-## TODO
-
-* Use a Lambda to restart/monitor system containers, like [here](https://github.com/miketheman/ecs-host-service-scale)
-* Create an EC2 nodes update script to update all nodes without disruption
-* Show how to get EC2 and container metrics to Prometheus
-* Show an example on how to use fluentd to push logs to ElasticSearch
-* Show how to use and add a bastion server to the infrastructure
-* Show how to use ELB instead of the ALB
-* Show how to add a database like RDS to the infrastructure
-* Show how to push logs to CloudWatch (Create proper role for task)
 
 
     [1]: https://aws.amazon.com/ecs/
