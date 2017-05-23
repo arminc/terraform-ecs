@@ -174,7 +174,6 @@ Almost all containers require some form of external values or secrets, like the 
 To allow a task to access the Parameter Store you need a role that you can assing to your task. The [ecs roles module](../modules/ecs_roles/main.tf) can create such a role.
 
 
-
     [1]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
     [2]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html
     [3]: http://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
