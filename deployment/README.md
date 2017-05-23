@@ -3,12 +3,12 @@
 * [What is needed for an deployment](#deployment)
 * [Initial deployment](#initial-deployment)
 * [How to deploy a new version?](#new-version-deployment)
+* [Expose the service to the outside world](#alb-vs-elb)
 * [Things you should know](#must-know)
   * [Task Definition global](#task-definition-global)
   * [Internal vs External](#internal-vs-external)
   * [Automated deployments](#automated-deployments)
   * [Container secrets](#container-secrets)
-* [Expose the service to the outside world](#alb-vs-elb)
 
 ## Deployment
 
@@ -85,7 +85,7 @@ To actually run the container we need a Service, to create a service we need the
 
 While the Task definition is not aware of the environment the Service definition definitely is. That is why we are specifying the *cluster* name and the *role*. For service to know which Task definition to run we need to specify the *taskDefinition* arn. This can be found in AWS console under Task definitions or you will get it when [Registering a Task definition](#register-a-task-definition).
 
-We also need to provide a *targetGroupArn*, which is used to [Expose the service to the outside world](#alb-vs-elb)
+We also need to provide a *targetGroupArn*, which is used to [expose the service to the outside world](#alb-vs-elb)
 
 For all possible Service definition parameters have a look at the [documentation][4].
 
@@ -146,14 +146,14 @@ The Task definition is global on AWS. It means that when you create a Task defin
 
 ### Internal vs External
 
-AWS has a concept of having a external or internal facing LB (LoadBalancer), as can be read [here][7] External facing means available on the internet and is probably the most used one. The internal one is not available on the internet but only inside your VPC.
+AWS has a concept of having an external or internal facing LB (LoadBalancer), as can be read [here][7] External facing means available on the internet and is probably the most used one. The internal one is not available on the internet but only inside your VPC.
 
 The internal facing LB can be very interesting for connecting microservices without using any complicated service discovery.
 
 ### Automated deployments
 
 Although it is posible to deploy manualy trough AWS console or executing the above commands by your self, it makes more sense to automate this process. It is posible to use one of the following scripts <https://github.com/silinternational/ecs-deploy>
-Or apply KISS and do something like this:
+Or apply KISS and do something like this (deploy.sh can be found [here](deploy.sh):
 
 To do an initial deployment:
 
