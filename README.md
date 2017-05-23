@@ -108,6 +108,8 @@ You should not put your ECS instances directly on the internet. You should not a
 
 This ECS module allows you to use an AWS SSH key to be able to access the instances, for quick usage purposes the ecs.tf creates a new AWS SSH key. The private key can be found in the root of this repository with the name 'ecs_fake_private'
 
+For a new method see issue #1
+
 ### ECS configuration
 
 ECS is configured using the */etc/ecs/ecs.config* file as you can see [here][8]. There are two important configurations in this file. One is the ECS cluster name so that it can connect to the cluster, this should be specified from terraform because you want this to be variable. The other one is access to Docker Hub to be able to access private repositories. To do this safely use an S3 bucket that contains the Docker Hub configuration. See the *ecs_config* variable in the *ecs_instances* module for an example.
@@ -205,7 +207,6 @@ When deploying manually we can see if the new container has started or is stuck 
 
 ## TODO
 
-* Don't use SSH use AWS remote commands like described [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ec2-run-command.html)
 * Use a Lambda to restart/monitor system containers, like [here](https://github.com/miketheman/ecs-host-service-scale)
 * Create an EC2 nodes update script to update all nodes without disruption
 * Show how to get EC2 and container metrics to Prometheus
