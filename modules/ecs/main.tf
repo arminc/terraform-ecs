@@ -26,6 +26,7 @@ module "ecs_instances" {
   load_balancers          = "${var.load_balancers}"
   depends_id              = "${module.network.depends_id}"
   custom_userdata         = "${var.custom_userdata}"
+  cloudwatch_prefix       = "${var.cloudwatch_prefix}"
 }
 
 resource "aws_ecs_cluster" "cluster" {
