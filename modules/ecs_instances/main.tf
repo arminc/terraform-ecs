@@ -92,10 +92,11 @@ data "template_file" "user_data" {
   template = "${file("${path.module}/templates/user_data.sh")}"
 
   vars {
-    ecs_config      = "${var.ecs_config}"
-    ecs_logging     = "${var.ecs_logging}"
-    cluster_name    = "${var.cluster}"
-    env_name        = "${var.environment}"
-    custom_userdata = "${var.custom_userdata}"
+    ecs_config        = "${var.ecs_config}"
+    ecs_logging       = "${var.ecs_logging}"
+    cluster_name      = "${var.cluster}"
+    env_name          = "${var.environment}"
+    custom_userdata   = "${var.custom_userdata}"
+    cloudwatch_prefix = "${var.cloudwatch_prefix}"
   }
 }
