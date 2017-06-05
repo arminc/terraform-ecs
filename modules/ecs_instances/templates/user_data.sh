@@ -19,38 +19,38 @@ cat > /etc/awslogs/awslogs.conf <<- EOF
 [general]
 state_file = /var/lib/awslogs/agent-state        
  
-[${cloudwatch_prefix}/var/log/dmesg]
+[/var/log/dmesg]
 file = /var/log/dmesg
-log_group_name = /var/log/dmesg
+log_group_name = ${cloudwatch_prefix}/var/log/dmesg
 log_stream_name = ${cluster_name}/{container_instance_id}
 
-[${cloudwatch_prefix}/var/log/messages]
+[/var/log/messages]
 file = /var/log/messages
-log_group_name = /var/log/messages
+log_group_name = ${cloudwatch_prefix}/var/log/messages
 log_stream_name = ${cluster_name}/{container_instance_id}
 datetime_format = %b %d %H:%M:%S
 
-[${cloudwatch_prefix}/var/log/docker]
+[/var/log/docker]
 file = /var/log/docker
-log_group_name = /var/log/docker
+log_group_name = ${cloudwatch_prefix}/var/log/docker
 log_stream_name = ${cluster_name}/{container_instance_id}
 datetime_format = %Y-%m-%dT%H:%M:%S.%f
 
-[${cloudwatch_prefix}/var/log/ecs/ecs-init.log]
+[/var/log/ecs/ecs-init.log]
 file = /var/log/ecs/ecs-init.log.*
-log_group_name = /var/log/ecs/ecs-init.log
+log_group_name = ${cloudwatch_prefix}/var/log/ecs/ecs-init.log
 log_stream_name = ${cluster_name}/{container_instance_id}
 datetime_format = %Y-%m-%dT%H:%M:%SZ
 
-[${cloudwatch_prefix}/var/log/ecs/ecs-agent.log]
+[/var/log/ecs/ecs-agent.log]
 file = /var/log/ecs/ecs-agent.log.*
-log_group_name = /var/log/ecs/ecs-agent.log
+log_group_name = ${cloudwatch_prefix}/var/log/ecs/ecs-agent.log
 log_stream_name = ${cluster_name}/{container_instance_id}
 datetime_format = %Y-%m-%dT%H:%M:%SZ
 
-[${cloudwatch_prefix}/var/log/ecs/audit.log]
+[/var/log/ecs/audit.log]
 file = /var/log/ecs/audit.log.*
-log_group_name = /var/log/ecs/audit.log
+log_group_name = ${cloudwatch_prefix}/var/log/ecs/audit.log
 log_stream_name = ${cluster_name}/{container_instance_id}
 datetime_format = %Y-%m-%dT%H:%M:%SZ
 
