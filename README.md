@@ -41,14 +41,14 @@ Having said that ECS does have a possibility to be used like a Kubernetes or Mes
 
 ## ECS infra
 
-As stated above ECS needs EC2 nodes that are beeing used as slaves to run Docker containers on. To do so you need infrastructure for this. Here is an ECS production-ready infrastructure diagram.
+As stated above ECS needs EC2 nodes that are being used as slaves to run Docker containers on. To do so you need infrastructure for this. Here is an ECS production-ready infrastructure diagram.
 
 ![ECS infra](img/ecs-infra.png)
 
 What are we creating:
 
 * VPC with a /16 ip address range and an internet gateway
-* We are choosing a region and a number of availability zones we want to use. For high-availibitly we need alteast two
+* We are choosing a region and a number of availability zones we want to use. For high-availability we need at least two
 * In every availability zone we are creating a private and a public subnet with a /24 ip address range
   * Public subnet convention is 10.x.0.x and 10.x.1.x etc..
   * Private subnet convention is 10.x.50.x and 10.x.51.x etc..
@@ -84,7 +84,7 @@ These are the conventions we have in every module
 
 ## Create it
 
-To create a working ECS cluster from this respository see **ecs.tf** and **ecf.tfvars**.
+To create a working ECS cluster from this repository see **ecs.tf** and **ecf.tfvars**.
 
 Quick way to create this from the repository as is:
 
@@ -132,7 +132,7 @@ It is possible to use the Application LoadBalancer and the Classic LoadBalancer 
 
 ### Using default
 
-The philosophy is that the modules should provide as much as posible of sane defaults. That way when using the modules it is possible to quickly configure them but still change when needed. That is also why we introduced something like a name 'default' as the default value for some of the components. Another reason behind it is that you don't need to come up with names when you probably might only have one cluster in your enviourment.
+The philosophy is that the modules should provide as much as possible of sane defaults. That way when using the modules it is possible to quickly configure them but still change when needed. That is also why we introduced something like a name 'default' as the default value for some of the components. Another reason behind it is that you don't need to come up with names when you probably might only have one cluster in your environment.
 
 Looking at [ecs.tf](ecs.tf) might give you a different impression, but there we configure more things than needed to show it can be done.
 
@@ -197,7 +197,7 @@ The best option is to drain the containers from an ECS instance like described [
 
 ### Service discovery
 
-ECS allows the use of [ALB and ELB](deployment/README.md#alb-vs-elb) facing [Internaly or Externaly](deployment/README.md#internal-vs-external) which allows for a simple but very effective service discovery. If you encounter the need to use external tools like consul etc... then you should ask yourself the question: Am I not making it to complex?
+ECS allows the use of [ALB and ELB](deployment/README.md#alb-vs-elb) facing [Internally or Externally](deployment/README.md#internal-vs-external) which allows for a simple but very effective service discovery. If you encounter the need to use external tools like consul etc... then you should ask yourself the question: Am I not making it to complex?
 
 Kubernetes and Mesos act like a big cluster where they encourage you to deploy all kinds of things on it. ECS can do the same but it makes sense to group your applications to domains or logical groups and create separate ECS clusters for them. This can be easily done because you are not paying for the master nodes. You can still be in the same AWS account and the same VPC but on a separate cluster with separate instances.
 
