@@ -32,7 +32,7 @@ variable "load_balancers" {
   description = "The load balancers to couple to the instances"
 }
 
-variable "availibility_zones" {
+variable "availability_zones" {
   type        = "list"
   description = "List of avalibility zones you want. Example: eu-west-1a and eu-west-1b"
 }
