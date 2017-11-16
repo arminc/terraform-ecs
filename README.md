@@ -64,7 +64,7 @@ Creating one big module does not really give a benefit of modules. Therefore the
 
 Details regarding how a module works or why it is setup is described in the module itself if needed.
 
-Modules need to be used to create infrastructure. For an example on how to use the modules to create a working ECS cluster see **ecs.tf** and **ecf.tfvars**.
+Modules need to be used to create infrastructure. For an example on how to use the modules to create a working ECS cluster see **ecs.tf** and **ecs.tfvars**.
 
 **Note:** You need to use Terraform version 0.9.5 and above
 
@@ -84,7 +84,7 @@ These are the conventions we have in every module
 
 ## Create it
 
-To create a working ECS cluster from this repository see **ecs.tf** and **ecf.tfvars**.
+To create a working ECS cluster from this repository see **ecs.tf** and **ecs.tfvars**.
 
 Quick way to create this from the repository as is:
 
