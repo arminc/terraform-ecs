@@ -88,7 +88,7 @@ EOF
 start ecs
 
 #Get ECS instance info, althoug not used in this user_data it self this allows you to use
-#az(availibility zone) and region
+#az(availability zone) and region
 until $(curl --output /dev/null --silent --head --fail http://localhost:51678/v1/metadata); do
   printf '.'
   sleep 5
