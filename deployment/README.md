@@ -126,7 +126,7 @@ aws ecs update-service --cli-input-json file://service-update-nginx.json
 
 ## ALB vs ELB
 
-The goal is not to deploy an application but to make it accessible to the outside world or the internal services. This can be done by using the ALB (Application LoadBalancer) or the ELB (Elastic LoadBalancer). The difference is that the ELB has no knowledge of ontainers, it just looks at the health of the EC2 node and exposes a predefined port of that node.
+The goal is not to deploy an application but to make it accessible to the outside world or the internal services. This can be done by using the ALB (Application LoadBalancer) or the ELB (Elastic LoadBalancer). The difference is that the ELB has no knowledge of containers, it just looks at the health of the EC2 node and exposes a predefined port of that node.
 
 ALB is 'container' aware, in the sense that the containers get registered to the ALB and that the ALB exposes containers to the outside world instead of the EC2 node. This also means that you can have multiple containers of the same type on one EC2 node.
 
