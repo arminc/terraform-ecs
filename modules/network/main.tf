@@ -28,8 +28,8 @@ module "public_subnet" {
 module "nat" {
   source = "../nat_gateway"
 
-  subnet_ids   = "${module.public_subnet.ids}"
-  subnet_count = "${length(var.public_subnet_cidrs)}"
+  subnet_ids   = "${module.private_subnet.ids}"
+  subnet_count = "${length(var.private_subnet_cidrs)}"
 }
 
 resource "aws_route" "public_igw_route" {
