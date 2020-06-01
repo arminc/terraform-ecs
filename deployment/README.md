@@ -158,13 +158,13 @@ Or apply KISS and do something like this (deploy.sh can be found [here](deploy.s
 To do an initial deployment:
 
 ```bash
-./deploy.sh CONTAINER_VERSION=nginx:alpine create
+CONTAINER_VERSION=nginx:alpine ./deploy.sh create
 ```
 
 To do an update deployment:
 
 ```bash
-./deploy.sh CONTAINER_VERSION=nginx:alpine update
+CONTAINER_VERSION=nginx:alpine ./deploy.sh update
 ```
 
 ### Container secrets
