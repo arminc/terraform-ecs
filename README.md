@@ -64,9 +64,9 @@ Creating one big module does not really give a benefit of modules. Therefore the
 
 Details regarding how a module works or why it is setup is described in the module itself if needed.
 
-Modules need to be used to create infrastructure. For an example on how to use the modules to create a working ECS cluster see **main.tf** and **variables.tf**.
+Modules need to be used to create infrastructure.
 
-**Note:** You need to use Terraform version 0.9.5 and above.
+**Note:** You need to use Terraform version 0.12.0 and above.
 
 ### Conventions
 
@@ -84,20 +84,93 @@ These are the conventions we have in every module:
 
 ## Create it
 
-To create a working ECS cluster from this repository see **main.tf** and **variables.tf**.
+To create a working ECS cluster from this repository, create the following files:
+
+```hcl-terraform
+# ecs.tf
+
+module "ecs" {
+  source = "theogravity/ecs/aws"
+
+  aws_region           = var.aws_region
+  environment          = var.environment
+  vpc_cidr             = var.vpc_cidr
+  public_subnet_cidrs  = var.public_subnet_cidrs
+  private_subnet_cidrs = var.private_subnet_cidrs
+  availability_zones   = var.availability_zones
+  max_size             = var.max_size
+  min_size             = var.min_size
+  desired_capacity     = var.desired_capacity
+  ecs_public_key       = var.ecs_public_key
+  instance_type        = var.instance_type
+  ecs_aws_ami          = var.ecs_aws_ami
+}
+
+variable "ecs_public_key" {}
+variable "vpc_cidr" {}
+variable "environment" {}
+variable "max_size" {}
+variable "min_size" {}
+variable "desired_capacity" {}
+variable "instance_type" {}
+variable "ecs_aws_ami" {}
+variable "aws_region" {}
+
+variable "private_subnet_cidrs" {
+  type = list
+}
+
+variable "public_subnet_cidrs" {
+  type = list
+}
+
+variable "availability_zones" {
+  type = list
+}
+```
+
+```hcl-terraform
+# ecs.tfvars
+
+vpc_cidr = "10.0.0.0/16"
+
+aws_region = "eu-west-1"
+
+environment = "eng"
+
+public_subnet_cidrs = ["10.0.0.0/24", "10.0.1.0/24"]
+
+private_subnet_cidrs = ["10.0.50.0/24", "10.0.51.0/24"]
+
+availability_zones = ["eu-west-1a", "eu-west-1b"]
+
+max_size = 1
+
+min_size = 1
+
+desired_capacity = 1
+
+instance_type = "t2.micro"
+
+ecs_aws_ami = "ami-95f8d2f3"
+
+# ssh RSA pubic key
+# Replace with a valid value from a public key file
+ecs_public_key = "ssh-rsa ... test@test.com"
+```
 
 Quick way to create this from the repository as is:
 
 ```bash
-terraform get && terraform apply -input=false -var-file=variables.tf
+terraform get && terraform apply -input=false -var-file=ecs.tfvars
 ```
 
 Actual way for creating everything using the default terraform flow:
 
 ```bash
 terraform get
-terraform plan -input=false -var-file=variables.tf
-terraform apply -input=false -var-file=variables.tf
+terraform plan -input=false -var-file=ecs.tfvars
+terraform apply -input=false -var-file=ecs.tfvars
 ```
 
 ## Must know
