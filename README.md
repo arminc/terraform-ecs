@@ -64,7 +64,7 @@ Creating one big module does not really give a benefit of modules. Therefore the
 
 Details regarding how a module works or why it is setup is described in the module itself if needed.
 
-Modules need to be used to create infrastructure. For an example on how to use the modules to create a working ECS cluster see **ecs.tf** and **ecs.tfvars**.
+Modules need to be used to create infrastructure. For an example on how to use the modules to create a working ECS cluster see **main.tf** and **variables.tf**.
 
 **Note:** You need to use Terraform version 0.9.5 and above.
 
@@ -84,20 +84,20 @@ These are the conventions we have in every module:
 
 ## Create it
 
-To create a working ECS cluster from this repository see **ecs.tf** and **ecs.tfvars**.
+To create a working ECS cluster from this repository see **main.tf** and **variables.tf**.
 
 Quick way to create this from the repository as is:
 
 ```bash
-terraform get && terraform apply -input=false -var-file=ecs.tfvars
+terraform get && terraform apply -input=false -var-file=variables.tf
 ```
 
 Actual way for creating everything using the default terraform flow:
 
 ```bash
 terraform get
-terraform plan -input=false -var-file=ecs.tfvars
-terraform apply -input=false -var-file=ecs.tfvars
+terraform plan -input=false -var-file=variables.tf
+terraform apply -input=false -var-file=variables.tf
 ```
 
 ## Must know
@@ -105,8 +105,6 @@ terraform apply -input=false -var-file=ecs.tfvars
 ### SSH access to the instances
 
 You should not put your ECS instances directly on the internet. You should not allow SSH access to the instances directly but use a bastion server for that. Having SSH access to the acceptance environment is fine but you should not allow SSH access to production instances. You don't want to make any manual changes in the production environment.
-
-This ECS module allows you to use an AWS SSH key to be able to access the instances, for quick usage purposes the ecs.tf creates a new AWS SSH key. The private key can be found in the root of this repository with the name 'ecs_fake_private'.
 
 For a new method see issue [#1](https://github.com/arminc/terraform-ecs/issues/1).
 
@@ -134,7 +132,7 @@ It is possible to use the Application LoadBalancer and the Classic LoadBalancer 
 
 The philosophy is that the modules should provide as much as possible of sane defaults. That way when using the modules it is possible to quickly configure them but still change when needed. That is also why we introduced something like a name 'default' as the default value for some of the components. Another reason behind it is that you don't need to come up with names when you probably might only have one cluster in your environment.
 
-Looking at [ecs.tf](ecs.tf) might give you a different impression, but there we configure more things than needed to show it can be done.
+Looking at [main.tf](main.tf) might give you a different impression, but there we configure more things than needed to show it can be done.
 
 ### ECS deployment strategies
 
