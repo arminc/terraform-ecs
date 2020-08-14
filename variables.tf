@@ -48,3 +48,12 @@ variable "availability_zones" {
 variable "ecs_public_key" {
   description = "Contents of an SSH RSA public key to access the ECS host."
 }
+
+variable "cloudwatch_prefix" {
+  default     = ""
+  description = "If you want to avoid cloudwatch collision or you don't want to merge all logs to one log group specify a prefix"
+}
+
+variable "cluster_name" {
+  description = "Name of the ECS cluster to create"
+}

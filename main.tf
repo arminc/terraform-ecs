@@ -10,8 +10,8 @@ module "ecs" {
   source = "./modules/ecs"
 
   environment          = var.environment
-  cluster              = var.environment
-  cloudwatch_prefix    = var.environment           #See ecs_instances module when to set this and when not!
+  cluster              = var.cluster_name
+  cloudwatch_prefix    = var.cloudwatch_prefix           #See ecs_instances module when to set this and when not!
   vpc_cidr             = var.vpc_cidr
   public_subnet_cidrs  = var.public_subnet_cidrs
   private_subnet_cidrs = var.private_subnet_cidrs
