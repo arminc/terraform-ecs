@@ -94,6 +94,8 @@ module "ecs" {
 
   aws_region           = var.aws_region
   environment          = var.environment
+  cluster_name         = var.cluster_name
+  cloudwatch_prefix    = var.cloudwatch_prefix
   vpc_cidr             = var.vpc_cidr
   public_subnet_cidrs  = var.public_subnet_cidrs
   private_subnet_cidrs = var.private_subnet_cidrs
@@ -106,6 +108,7 @@ module "ecs" {
   ecs_aws_ami          = var.ecs_aws_ami
 }
 
+variable "cluster_name" {}
 variable "ecs_public_key" {}
 variable "vpc_cidr" {}
 variable "environment" {}
@@ -115,6 +118,10 @@ variable "desired_capacity" {}
 variable "instance_type" {}
 variable "ecs_aws_ami" {}
 variable "aws_region" {}
+
+variable "cloudwatch_prefix" {
+  default = ""
+}
 
 variable "private_subnet_cidrs" {
   type = list
@@ -132,26 +139,17 @@ variable "availability_zones" {
 ```hcl-terraform
 # ecs.tfvars
 
-vpc_cidr = "10.0.0.0/16"
-
 aws_region = "eu-west-1"
-
 environment = "eng"
-
+cluster_name = "eng-cluster"
+vpc_cidr = "10.0.0.0/16"
 public_subnet_cidrs = ["10.0.0.0/24", "10.0.1.0/24"]
-
 private_subnet_cidrs = ["10.0.50.0/24", "10.0.51.0/24"]
-
 availability_zones = ["eu-west-1a", "eu-west-1b"]
-
 max_size = 1
-
 min_size = 1
-
 desired_capacity = 1
-
 instance_type = "t2.micro"
-
 ecs_aws_ami = "ami-95f8d2f3"
 
 # ssh RSA pubic key
