@@ -22,6 +22,11 @@ module "ecs" {
   key_name             = aws_key_pair.ecs.key_name
   instance_type        = var.instance_type
   ecs_aws_ami          = var.ecs_aws_ami
+  ecs_config           = var.ecs_config
+  custom_userdata      = var.custom_userdata
+  instance_group       = var.instance_group
+  load_balancers       = var.load_balancers
+  ecs_logging          = var.ecs_logging
 }
 
 resource "aws_key_pair" "ecs" {
