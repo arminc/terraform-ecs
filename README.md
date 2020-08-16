@@ -150,7 +150,10 @@ max_size = 1
 min_size = 1
 desired_capacity = 1
 instance_type = "t2.micro"
-ecs_aws_ami = "ami-95f8d2f3"
+
+# https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux
+# MUST be an ecs-optimized image
+ecs_aws_ami = "ami-0c4b9f15bc61a5ba8"
 
 # ssh RSA pubic key
 # Replace with a valid value from a public key file

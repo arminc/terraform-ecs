@@ -26,7 +26,5 @@ module "ecs" {
 
 resource "aws_key_pair" "ecs" {
   key_name   = "ecs-key-${var.environment}"
-  # DO NOT USE THIS DEFAULT VALUE, IT WILL LEAVE YOUR ENVIRONMENT ACCESSIBLE TO ANYONE
-  # Replace this with your own public key
   public_key = var.ecs_public_key
 }
