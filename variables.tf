@@ -34,7 +34,7 @@ variable "instance_type" {
 }
 
 variable "ecs_aws_ami" {
-  description = "The AWS ami id to use for ECS. Should be an ECS-optimized image."
+  description = "The AWS ami id to use for ECS. Needs to be an ECS-optimized Linux 2 image."
   default = "ami-95f8d2f3"
 }
 

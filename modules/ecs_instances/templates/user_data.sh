@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# https://gist.githubusercontent.com/lethaldose/4103a64320b93475d7b308523b4a6c68/raw/e7ec547dc8be224baa87007d94260f520aaafdb9/user_data(_amazon_linux_2).sh
+
 # Timezone
-ln -fs /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime
+ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 
 #Using script from http://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_cloudwatch_logs.html
 # Install awslogs and the jq JSON parser
@@ -17,8 +19,8 @@ ${ecs_config}
 # Inject the CloudWatch Logs configuration file contents
 cat > /etc/awslogs/awslogs.conf <<- EOF
 [general]
-state_file = /var/lib/awslogs/agent-state        
- 
+state_file = /var/lib/awslogs/agent-state
+
 [/var/log/dmesg]
 file = /var/log/dmesg
 log_group_name = ${cloudwatch_prefix}/var/log/dmesg
@@ -56,46 +58,59 @@ datetime_format = %Y-%m-%dT%H:%M:%SZ
 
 EOF
 
+# Set the ip address of the node
+#container_instance_id=$(curl 169.254.169.254/latest/meta-data/local-ipv4)
+#sed -i -e "s/{container_instance_id}/$container_instance_id/g" /etc/awslogs/awslogs.conf
+
+# Write the awslogs bootstrap script to /usr/local/bin/bootstrap-awslogs.sh
+cat > /usr/local/bin/bootstrap-awslogs.sh <<- EOF
+#!/usr/bin/env bash
+exec 2>>/var/log/ecs/cloudwatch-logs-start.log
+set -x
+
+until curl -s http://localhost:51678/v1/metadata
+do
+  sleep 1
+done
+
 # Set the region to send CloudWatch Logs data to (the region where the container instance is located)
-region=$(curl 169.254.169.254/latest/meta-data/placement/availability-zone | sed s'/.$//')
-sed -i -e "s/region = us-east-1/region = $region/g" /etc/awslogs/awscli.conf
+cp /etc/awslogs/awscli.conf /etc/awslogs/awscli.conf.bak
+region=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r .region)
+sed -i -e "s/region = .*/region = $region/g" /etc/awslogs/awscli.conf
 
-# Set the ip address of the node 
-container_instance_id=$(curl 169.254.169.254/latest/meta-data/local-ipv4)
+# Grab the cluster and container instance ARN from instance metadata
+cluster=$(curl -s http://localhost:51678/v1/metadata | jq -r '. | .Cluster')
+container_instance_id=$(curl -s http://localhost:51678/v1/metadata | jq -r '. | .ContainerInstanceArn' | awk -F/ '{print $2}' )
+
+# Replace the cluster name and container instance ID placeholders with the actual values
+cp /etc/awslogs/awslogs.conf /etc/awslogs/awslogs.conf.bak
+sed -i -e "s/{cluster}/$cluster/g" /etc/awslogs/awslogs.conf
 sed -i -e "s/{container_instance_id}/$container_instance_id/g" /etc/awslogs/awslogs.conf
-
-cat > /etc/init/awslogjob.conf <<- EOF
-#upstart-job
-description "Configure and start CloudWatch Logs agent on Amazon ECS container instance"
-author "Amazon Web Services"
-start on started ecs
-
-script
-	exec 2>>/var/log/ecs/cloudwatch-logs-start.log
-	set -x
-	
-	until curl -s http://localhost:51678/v1/metadata
-	do
-		sleep 1	
-	done
-	
-	service awslogs start
-	chkconfig awslogs on
-end script
 
 EOF
 
-start ecs
+# Write the bootstrap-awslogs systemd unit file to /etc/systemd/system/bootstrap-awslogs.service
+cat > /etc/systemd/system/bootstrap-awslogs.service <<- EOF
+[Unit]
+Description=Bootstrap awslogs agent
+Requires=ecs.service
+After=ecs.service
+Before=awslogsd.service
 
-#Get ECS instance info, althoug not used in this user_data it self this allows you to use
-#az(availability zone) and region
-until $(curl --output /dev/null --silent --head --fail http://localhost:51678/v1/metadata); do
-  printf '.'
-  sleep 5
-done
-instance_arn=$(curl -s http://localhost:51678/v1/metadata | jq -r '. | .ContainerInstanceArn' | awk -F/ '{print $NF}' )
-az=$(curl -s http://instance-data/latest/meta-data/placement/availability-zone)
-region=$${az:0:$${#az} - 1}
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/bootstrap-awslogs.sh
+
+[Install]
+WantedBy=awslogsd.service
+EOF
+
+chmod +x /usr/local/bin/bootstrap-awslogs.sh
+systemctl daemon-reload
+systemctl enable bootstrap-awslogs.service
+systemctl enable awslogsd.service
+systemctl start awslogsd.service --no-block
 
 #Custom userdata script code
 ${custom_userdata}
