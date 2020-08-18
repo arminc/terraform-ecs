@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "ecs" {
-  source = "modules/ecs"
+  source = "./modules/ecs"
 
   environment          = "${var.environment}"
   cluster              = "${var.environment}"

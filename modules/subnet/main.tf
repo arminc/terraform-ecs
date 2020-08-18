@@ -6,7 +6,7 @@ resource "aws_subnet" "subnet" {
   availability_zone = "${element(var.availability_zones, count.index)}"
   count             = "${length(var.cidrs)}"
 
-  tags {
+  tags = {
     Name        = "${var.name}_${element(var.availability_zones, count.index)}"
     Environment = "${var.environment}"
   }
@@ -19,7 +19,7 @@ resource "aws_route_table" "subnet" {
   vpc_id = "${var.vpc_id}"
   count  = "${length(var.cidrs)}"
 
-  tags {
+  tags = {
     Name        = "${var.name}_${element(var.availability_zones, count.index)}"
     Environment = "${var.environment}"
   }
