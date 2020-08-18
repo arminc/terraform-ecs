@@ -19,6 +19,6 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_lb" {
-  role       = "${aws_iam_role.ecs_lb_role.id}"
+  role       = aws_iam_role.ecs_lb_role.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceRole"
 }

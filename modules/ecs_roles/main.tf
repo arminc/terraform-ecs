@@ -44,9 +44,9 @@ data "template_file" "policy" {
 EOF
 
   vars {
-    account_id = "${data.aws_caller_identity.current.account_id}"
-    prefix     = "${var.prefix}"
-    aws_region = "${data.aws_region.current.name}"
+    account_id = data.aws_caller_identity.current.account_id
+    prefix     = var.prefix
+    aws_region = data.aws_region.current.name
   }
 }
 
@@ -54,11 +54,11 @@ resource "aws_iam_policy" "ecs_default_task" {
   name = "${var.environment}_${var.cluster}_ecs_default_task"
   path = "/"
 
-  policy = "${data.template_file.policy.rendered}"
+  policy = data.template_file.policy.rendered
 }
 
 resource "aws_iam_policy_attachment" "ecs_default_task" {
   name       = "${var.environment}_${var.cluster}_ecs_default_task"
   roles      = ["${aws_iam_role.ecs_default_task.name}"]
-  policy_arn = "${aws_iam_policy.ecs_default_task.arn}"
+  policy_arn = aws_iam_policy.ecs_default_task.arn
 }
