@@ -27,7 +27,7 @@ resource "aws_alb" "alb" {
   }
 }
 
-resource "aws_alb_listener" "https" {
+resource "aws_alb_listener" "http" {
   load_balancer_arn = "${aws_alb.alb.id}"
   port              = "80"
   protocol          = "HTTP"

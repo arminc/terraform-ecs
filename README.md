@@ -23,15 +23,15 @@ This repository contains the Terraform modules for creating a production ready E
 ## What is ECS
 
 ECS stands for EC2 Container Service and is the AWS platform for running Docker containers.
-The full documentation about ECS can be found [here](https://aws.amazon.com/ecs/), the development guide can be found [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html). A more fun read can be found at [The Hitchhiker's Guide to AWS ECS and Docker](http://start.jcolemorrison.com/the-hitchhikers-guide-to-aws-ecs-and-docker/)
+The full documentation about ECS can be found [here](https://aws.amazon.com/ecs/), the development guide can be found [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html). A more fun read can be found at [The Hitchhiker's Guide to AWS ECS and Docker](http://start.jcolemorrison.com/the-hitchhikers-guide-to-aws-ecs-and-docker/).
 
-To understand ECS it is good to state the obvious differences against the competitors like [Kubernetes](https://kubernetes.io/) or [DC/OS Mesos](https://docs.mesosphere.com/). The mayor differences are that ECS can not be run on-prem and that it lacks advanced features. These two differences can either been seen as weakness or as strengths.
+To understand ECS it is good to state the obvious differences against the competitors like [Kubernetes](https://kubernetes.io/) or [DC/OS Mesos](https://docs.mesosphere.com/). The major differences are that ECS can not be run on-prem and that it lacks advanced features. These two differences can either been seen as weakness or as strengths.
 
 ### AWS specific
 
-You can not run ECS on-prem because it is an AWS service and not installable software. This makes it easier to setup and maintain than hosting your own Kubernetes or Mesos on-prem or in the cloud. Although it is a service it's not the same as [Google hosted Kubernetes](https://cloud.google.com/container-engine/). Why? Google really offers Kubernetes as a SAAS. Meaning, you don't manage any infrastructure while ECS actually requires slaves and therefore infrastructure.
+You can not run ECS on-prem because it is an AWS service and not installable software. This makes it easier to setup and maintain than hosting your own Kubernetes or Mesos on-prem or in the cloud. Although it is a service it's not the same as [Google hosted Kubernetes](https://cloud.google.com/container-engine/). Why? Google really offers Kubernetes as a SAAS. Meaning, you don't manage any infrastructure while ECS actually requires a cluster and therefore infrastructure.
 
-The difference between running your own Kubernetes or Mesos and ECS is the lack of maintenance of the master nodes on ECS. You are only responsible for allowing the EC2 nodes to connect to ECS and ECS does the rest. This makes the ECS slave nodes replaceable and allows for low maintenance by using the standard AWS ECS optimized OS and other building blocks like autoscale etc..
+The difference between running your own Kubernetes or Mesos and ECS is the lack of maintenance of the master nodes on ECS. You are only responsible for allowing the EC2 nodes to connect to ECS and ECS does the rest. This makes the instances in an ECS cluster replaceable and allows for low maintenance by using the standard AWS ECS optimized OS and other building blocks like autoscale etc..
 
 ### Advanced features
 
@@ -41,7 +41,7 @@ Having said that ECS does have a possibility to be used like a Kubernetes or Mes
 
 ## ECS infra
 
-As stated above ECS needs EC2 nodes that are being used as slaves to run Docker containers on. To do so you need infrastructure for this. Here is an ECS production-ready infrastructure diagram.
+As stated above, ECS needs EC2 instances that are used to run Docker containers on. To do so you need infrastructure for this. Here is an ECS production-ready infrastructure diagram.
 
 ![ECS infra](img/ecs-infra.png)
 
@@ -66,11 +66,11 @@ Details regarding how a module works or why it is setup is described in the modu
 
 Modules need to be used to create infrastructure. For an example on how to use the modules to create a working ECS cluster see **ecs.tf** and **ecs.tfvars**.
 
-**Note:** You need to use Terraform version 0.9.5 and above
+**Note:** You need to use Terraform version 0.9.5 and above.
 
 ### Conventions
 
-These are the conventions we have in every module
+These are the conventions we have in every module:
 
 * Contains main.tf where all the terraform code is
 * If main.tf is too big we create more *.tf files with proper names
@@ -106,9 +106,9 @@ terraform apply -input=false -var-file=ecs.tfvars
 
 You should not put your ECS instances directly on the internet. You should not allow SSH access to the instances directly but use a bastion server for that. Having SSH access to the acceptance environment is fine but you should not allow SSH access to production instances. You don't want to make any manual changes in the production environment.
 
-This ECS module allows you to use an AWS SSH key to be able to access the instances, for quick usage purposes the ecs.tf creates a new AWS SSH key. The private key can be found in the root of this repository with the name 'ecs_fake_private'
+This ECS module allows you to use an AWS SSH key to be able to access the instances, for quick usage purposes the ecs.tf creates a new AWS SSH key. The private key can be found in the root of this repository with the name 'ecs_fake_private'.
 
-For a new method see issue [#1](https://github.com/arminc/terraform-ecs/issues/1)
+For a new method see issue [#1](https://github.com/arminc/terraform-ecs/issues/1).
 
 ### ECS configuration
 
@@ -116,7 +116,7 @@ ECS is configured using the */etc/ecs/ecs.config* file as you can see [here](htt
 
 ### Logging
 
-All the default system logs like Docker or ECS agent should go to CloudWatch as configured in this repository. The ECS container logs can be pushed to CloudWatch as well but it is better to push these logs to a service like [ElasticSearch](https://www.elastic.co/cloud). CloudWatch does support search and alerts but with ElasticSearch or other log services you can use more advanced search and grouping. See issue [#5](https://github.com/arminc/terraform-ecs/issues/5)
+All the default system logs like Docker or ECS agent should go to CloudWatch as configured in this repository. The ECS container logs can be pushed to CloudWatch as well but it is better to push these logs to a service like [ElasticSearch](https://www.elastic.co/cloud). CloudWatch does support search and alerts but with ElasticSearch or other log services you can use more advanced search and grouping. See issue [#5](https://github.com/arminc/terraform-ecs/issues/5).
 
 The [ECS configuration](#ecs-configuration) as described here allows configuration of additional [Docker log drivers](https://docs.docker.com/engine/admin/logging/overview/) to be configured. For example fluentd as shown in the *ecs_logging* variable in the *ecs_instances* module.
 
@@ -128,7 +128,7 @@ Normally there is only one group of instances like configured in this repository
 
 ### LoadBalancer
 
-It is possible to use the Application LoadBalancer and the Classic LoadBalancer with this setup. The default configuration is Application LoadBalancer because that makes more sense in combination with ECS. There is also a concept of [Internal and External facing LoadBalancer](deployment/README.md#internal-vs-external)
+It is possible to use the Application LoadBalancer and the Classic LoadBalancer with this setup. The default configuration is Application LoadBalancer because that makes more sense in combination with ECS. There is also a concept of [Internal and External facing LoadBalancer](deployment/README.md#internal-vs-external).
 
 ### Using default
 
@@ -150,7 +150,7 @@ ECS has different [deployment strategies](#ecs-deployment-strategies) but it doe
 
 #### ECS workaround
 
-The ECS workaround is described here [Running an Amazon ECS Task on Every Instance](https://aws.amazon.com/blogs/compute/running-an-amazon-ecs-task-on-every-instance/). It basically means use a Task definition and a custom boot script to start and register the task in ECS. This is awesome because it allows you to see the system container running in ECS console. The bad thing about it is that it does not restart the container when it crashes. It is possible to create a Lambda to listen to changes/exits of the system container and act on it. For example, start it again on the same EC2 node. See issue [#2](https://github.com/arminc/terraform-ecs/issues/2)
+The ECS workaround is described here [Running an Amazon ECS Task on Every Instance](https://aws.amazon.com/blogs/compute/running-an-amazon-ecs-task-on-every-instance/). It basically means use a Task definition and a custom boot script to start and register the task in ECS. This is awesome because it allows you to see the system container running in ECS console. The bad thing about it is that it does not restart the container when it crashes. It is possible to create a Lambda to listen to changes/exits of the system container and act on it. For example, start it again on the same EC2 node. See issue [#2](https://github.com/arminc/terraform-ecs/issues/2).
 
 #### Docker
 
@@ -189,11 +189,11 @@ To know when to update your EC2 node you can subscribe to AWS ECS AMI updates, l
 
 If you need to perform an update you will need to update the information in the *ecs_instances* and then apply the changes on the cluster. This will only create a new *launch_configuration* but it will not touch the running instances. Therefore you need to replace your instances one by one. There are three ways to do this:
 
-Terminating the instances, but this may cause disruption to your application users. By terminating an instance a new one will be started with the new *launch_configuration*
+Terminating the instances, but this may cause disruption to your application users. By terminating an instance a new one will be started with the new *launch_configuration*.
 
 Double the size of your cluster and your applications and when everything is up and running scale the cluster down. This might be a costly operation and you also need to specify or protect the new instances so that the AWS auto scale does not terminate the new instances instead of the old ones.
 
-The best option is to drain the containers from an ECS instance like described [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-draining.html). Then you can terminate the instance without disrupting your application users. This can be done by doubling the EC2 nodes instances in your cluster or just by one and doing this slowly one by one. Currently, there is no automated/scripted way to do this. See issue [#3](https://github.com/arminc/terraform-ecs/issues/3)
+The best option is to drain the containers from an ECS instance like described [here](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-draining.html). Then you can terminate the instance without disrupting your application users. This can be done by doubling the EC2 nodes instances in your cluster or just by one and doing this slowly one by one. Currently, there is no automated/scripted way to do this. See issue [#3](https://github.com/arminc/terraform-ecs/issues/3).
 
 ### Service discovery
 
