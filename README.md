@@ -245,7 +245,7 @@ The best option is to drain the containers from an ECS instance like described [
 
 ### Service discovery
 
-ECS allows the use of [ALB and ELB](deployment/README.md#alb-vs-elb) facing [Internally or Externally](deployment/README.md#internal-vs-external) which allows for a simple but very effective service discovery. If you encounter the need to use external tools like consul etc... then you should ask yourself the question: Am I not making it to complex?
+ECS allows the use of [ALB and ELB](deployment/README.md#alb-vs-elb) facing [Internally or Externally](deployment/README.md#internal-vs-external) which allows for a simple but very effective service discovery. If you encounter the need to use external tools like consul etc... then you should ask yourself the question: Am I not making it too complex?
 
 Kubernetes and Mesos act like a big cluster where they encourage you to deploy all kinds of things on it. ECS can do the same but it makes sense to group your applications to domains or logical groups and create separate ECS clusters for them. This can be easily done because you are not paying for the master nodes. You can still be in the same AWS account and the same VPC but on a separate cluster with separate instances.
 

@@ -1,6 +1,6 @@
 # You can have multiple ECS clusters in the same account with different resources.
-# Therefore all resources created here have the name containing the name of the:
-# environment, cluster name en the instance_group name.
+# Therefore all resources created here have a name containing the name of the:
+# environment, cluster name, and the instance_group name.
 # That is also the reason why ecs_instances is a seperate module and not everything is created here.
 
 data "aws_region" "current" {}
@@ -57,7 +57,7 @@ resource "aws_launch_configuration" "launch" {
 
   # aws_launch_configuration can not be modified.
   # Therefore we use create_before_destroy so that a new modified aws_launch_configuration can be created 
-  # before the old one get's destroyed. That's why we use name_prefix instead of name.
+  # before the old one gets destroyed. That's why we use name_prefix instead of name.
   lifecycle {
     create_before_destroy = true
   }
