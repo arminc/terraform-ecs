@@ -3,35 +3,35 @@
 Terraform modules for creating a production ready ECS Cluster in AWS.
 
 Features:
-- High-availability (Multi-AZ)
-- Loadbalanced (ALB)
-- Isolated in a VPC
-- Private -> Public access (NAT'd)
-- Auto-scaling
+* High-availability (Multi-AZ)
+* Loadbalanced (ALB)
+* Isolated in a VPC
+* Private -> Public access (NAT'd)
+* Auto-scaling
 
 ## Usage:
 
-- Specify the AWS region to create resources into, in **ecs.tfvars**, using `aws_region` variable.
-- Specify the AMI to build your ECS instance from, in **ecs.tfvars**, using `aws_ecs_ami` variable.
-  - Leave empty to use the latest Linux 2 ECS-optimized AMI by Amazon.
-  - Find the latest recommended Linux 2 ECS-optimized AMI for current aws-cli region:
+* Specify the AWS region to create resources into, in **ecs.tfvars**, using `aws_region` variable.
+* Specify the AMI to build your ECS instance from, in **ecs.tfvars**, using `aws_ecs_ami` variable.
+  * Leave empty to use the latest Linux 2 ECS-optimized AMI by Amazon.
+  * Find the latest recommended Linux 2 ECS-optimized AMI for current aws-cli region:
   
   ```
   aws ssm get-parameters --names /aws/service/ecs/optimized-ami/amazon-linux-2/recommended
   ```
   
-  - Manually find latest recommended ECS-optimized AMI for any region or OS:
+  * Manually find latest recommended ECS-optimized AMI for any region or OS:
   
   Check here: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
 
-- Specify the aws-cli profile for the account to create resources in, in **ecs.tfvars**, using `aws_profile`.
-  - The default location to view your aws-cli profiles is `$HOME/.aws/credentials` on Linux and macOS and `%USERPROFILE%\.aws\credentials` on Windows.
-  - There are a number of other options for authenticating with the AWS Provider. These can be found here: https://registry.terraform.io/providers/hashicorp/aws/latest/docs_. To implement other strategies, replace the `profile` property of the aws provider as appropriate. 
+* Specify the aws-cli profile for the account to create resources in, in **ecs.tfvars**, using `aws_profile`.
+  * The default location to view your aws-cli profiles is `$HOME/.aws/credentials` on Linux and macOS and `%USERPROFILE%\.aws\credentials` on Windows.
+  * There are a number of other options for authenticating with the AWS Provider. These can be found here: https://registry.terraform.io/providers/hashicorp/aws/latest/docs. To implement other strategies, replace the `profile` property of the aws provider as appropriate. 
 
-- Learn more about the repository, configure the infrastructure to your needs, or create the infrastructure as is, with empty ECS instances.
-  - Learn more: [Directory](#directory)
-  - Configure: [ECS configuration](#ecs-configuration)
-  - Create: [How to create the infrastructure](#create-it)
+* Learn more about the repository, configure the infrastructure to your needs, or create the infrastructure as is, with empty ECS instances.
+  * Learn more: [Directory](#directory)
+  * Configure: [ECS configuration](#ecs-configuration)
+  * Create: [How to create the infrastructure](#create-it)
 
 ## Directory
 * [What is ECS?](#what-is-ecs)
@@ -128,13 +128,13 @@ terraform apply -input=false -var-file=ecs.tfvars
 
 ### `terraform get`
 
-_The `terraform get` command is used to download and update modules mentioned in the root module (https://www.terraform.io/docs/commands/get.html)._
+*The `terraform get` command is used to download and update modules mentioned in the root module (https://www.terraform.io/docs/commands/get.html).*
 
-**Note:** When installing a remote module, Terraform will download it into the .terraform directory in your configuration's root directory. When installing a local module, Terraform will instead refer directly to the source directory. Because of this, Terraform will automatically notice changes to local modules without having to re-run terraform init or terraform get._
+**Note:** When installing a remote module, Terraform will download it into the .terraform directory in your configuration's root directory. When installing a local module, Terraform will instead refer directly to the source directory. Because of this, Terraform will automatically notice changes to local modules without having to re-run terraform init or terraform get.
 
 ### `terraform plan -input=false -var-file=ecs.tfvars`
 
-_The `terraform plan` command is used to create an execution plan. This command is a convenient way to check whether the execution plan for a set of changes matches your expectations without making any changes to real resources or to the state. For example, `terraform plan` might be run before committing a change to version control, to create confidence that it will behave as expected (https://www.terraform.io/docs/commands/plan.html)._
+*The `terraform plan` command is used to create an execution plan. This command is a convenient way to check whether the execution plan for a set of changes matches your expectations without making any changes to real resources or to the state. For example, `terraform plan` might be run before committing a change to version control, to create confidence that it will behave as expected (https://www.terraform.io/docs/commands/plan.html).*
 
 `-input=false` specifies that we don't want prompted for input for variables not directly set.
 
@@ -142,7 +142,7 @@ _The `terraform plan` command is used to create an execution plan. This command 
 
 ### `terraform apply -input=false -var-file=ecs.tfvars`
 
-_The `terraform apply` command is used to apply the changes required to reach the desired state of the configuration. (https://www.terraform.io/docs/commands/apply.html)._
+*The `terraform apply` command is used to apply the changes required to reach the desired state of the configuration. (https://www.terraform.io/docs/commands/apply.html).*
 
 `-input=false` specifies that we don't want prompted for input for variables not directly set.
 
