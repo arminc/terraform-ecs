@@ -2,7 +2,7 @@
 aws_profile = "default"
 
 # The AWS region to create resources in.
-aws_region = "us-east-1"
+aws_region = "eu-west-1"
 
 # The AMI to seed ECS instances with.
 # Leave empty to use the latest Linux 2 ECS-optimized AMI by Amazon.
