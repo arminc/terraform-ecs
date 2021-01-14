@@ -32,7 +32,6 @@ variable "max_size" {}
 variable "min_size" {}
 variable "desired_capacity" {}
 variable "instance_type" {}
-variable "ecs_aws_ami" {}
 
 variable "private_subnet_cidrs" {
   type = list
