@@ -3,8 +3,6 @@
 # environment, cluster name, and the instance_group name.
 # That is also the reason why ecs_instances is a seperate module and not everything is created here.
 
-data "aws_region" "current" {}
-
 # Get latest Linux 2 ECS-optimized AMI by Amazon
 data "aws_ami" "latest_ecs_ami" {
   most_recent = true
@@ -111,7 +109,6 @@ data "template_file" "user_data" {
   template = "${file("${path.module}/templates/user_data.sh")}"
 
   vars = {
-    region            = data.aws_region.current.name
     ecs_config        = var.ecs_config
     ecs_logging       = var.ecs_logging
     cluster_name      = var.cluster
