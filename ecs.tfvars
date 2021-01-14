@@ -6,8 +6,6 @@ public_subnet_cidrs = ["10.0.0.0/24", "10.0.1.0/24"]
 
 private_subnet_cidrs = ["10.0.50.0/24", "10.0.51.0/24"]
 
-availability_zones = ["eu-west-1a", "eu-west-1b"]
-
 max_size = 1
 
 min_size = 1

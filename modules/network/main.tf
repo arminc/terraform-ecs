@@ -1,3 +1,7 @@
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 module "vpc" {
   source = "../vpc"
 
@@ -12,7 +16,7 @@ module "private_subnet" {
   environment        = var.environment
   vpc_id             = module.vpc.id
   cidrs              = var.private_subnet_cidrs
-  availability_zones = var.availability_zones
+  availability_zones = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1]]
 }
 
 module "public_subnet" {
@@ -22,7 +26,7 @@ module "public_subnet" {
   environment        = var.environment
   vpc_id             = module.vpc.id
   cidrs              = var.public_subnet_cidrs
-  availability_zones = var.availability_zones
+  availability_zones = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1]]
 }
 
 module "nat" {

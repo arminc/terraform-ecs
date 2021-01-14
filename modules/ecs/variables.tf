@@ -32,11 +32,6 @@ variable "load_balancers" {
   description = "The load balancers to couple to the instances"
 }
 
-variable "availability_zones" {
-  type        = list
-  description = "List of availability zones you want. Example: eu-west-1a and eu-west-1b"
-}
-
 variable "max_size" {
   description = "Maximum size of the nodes in the cluster"
 }

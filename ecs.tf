@@ -11,7 +11,6 @@ module "ecs" {
   vpc_cidr             = var.vpc_cidr
   public_subnet_cidrs  = var.public_subnet_cidrs
   private_subnet_cidrs = var.private_subnet_cidrs
-  availability_zones   = var.availability_zones
   max_size             = var.max_size
   min_size             = var.min_size
   desired_capacity     = var.desired_capacity
@@ -41,9 +40,6 @@ variable "public_subnet_cidrs" {
   type = list
 }
 
-variable "availability_zones" {
-  type = list
-}
 
 output "default_alb_target_group" {
   value = module.ecs.default_alb_target_group
