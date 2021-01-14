@@ -1,5 +1,6 @@
 provider "aws" {
-  region = "eu-west-1"
+  region  = var.aws_region
+  profile = var.aws_profile
 }
 
 module "ecs" {
@@ -17,7 +18,7 @@ module "ecs" {
   desired_capacity     = var.desired_capacity
   key_name             = aws_key_pair.ecs.key_name
   instance_type        = var.instance_type
-  ecs_aws_ami          = var.ecs_aws_ami
+  ecs_aws_ami          = var.aws_ecs_ami
 }
 
 resource "aws_key_pair" "ecs" {
@@ -36,7 +37,15 @@ variable "ecs_aws_ami" {}
 variable "private_subnet_cidrs" {
   type = list
 }
-
+variable "aws_profile" {
+  description = "The AWS-CLI profile for the account to create resources in."
+}
+variable "aws_region" {
+  description = "The AWS region to create resources in."
+}
+variable "aws_ecs_ami" {
+  description = "The AMI to seed ECS instances with."
+}
 variable "public_subnet_cidrs" {
   type = list
 }

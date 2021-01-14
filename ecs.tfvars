@@ -1,3 +1,13 @@
+# The AWS-CLI profile for the account to create resources in.
+aws_profile = "default"
+
+# The AWS region to create resources in.
+aws_region = "us-east-1"
+
+# The AMI to seed ECS instances with.
+# Leave empty to use the latest Linux 2 ECS-optimized AMI by Amazon.
+aws_ecs_ami = ""
+
 vpc_cidr = "10.0.0.0/16"
 
 environment = "acc"
@@ -15,5 +25,3 @@ min_size = 1
 desired_capacity = 1
 
 instance_type = "t2.micro"
-
-ecs_aws_ami = "ami-95f8d2f3"
