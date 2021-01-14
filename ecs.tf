@@ -28,10 +28,6 @@ resource "aws_key_pair" "ecs" {
 variable "environment" {
   description = "A name to describe the environment we're creating."
 }
-
-variable "ecs_aws_ami" {
-  description = "The AMI to seed ECS instances with."
-}
 variable "vpc_cidr" {
   description = "The IP range to attribute to the virtual network."
 }
@@ -58,6 +54,9 @@ variable "desired_capacity" {
 }
 variable "instance_type" {
   description = "Size of instances in the ECS cluster."
+}
+variable "ecs_aws_ami" {
+  description = "The AMI to seed ECS instances with."
 }
 
 output "default_alb_target_group" {

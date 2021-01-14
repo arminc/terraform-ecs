@@ -1,9 +1,9 @@
+# A name to describe the environment we're creating.
+environment = "acc"
+
 # The IP range to attribute to the virtual network.
 # The allowed block size is between a /16 (65,536 addresses) and /28 (16 addresses).
 vpc_cidr = "10.0.0.0/16"
-
-# A name to describe the environment we're creating.
-environment = "acc"
 
 # The IP ranges to use for the public subnets in your VPC.
 # Must be within the IP range of your VPC.
