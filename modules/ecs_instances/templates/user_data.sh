@@ -57,8 +57,9 @@ EOF
 # Get availability zone where the container instance is located and remove the trailing character to give us the region.
 # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html
 region=$(curl 169.254.169.254/latest/meta-data/placement/availability-zone | sed s'/.$//')
-# Replace the logging region specified by our region env var with the region where the container instance is located.
-sed -i -e "s/region = ${region}/region = $region/g" /etc/awslogs/awscli.conf
+# Replace the default log region with the region where the container instance is located.
+# https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/QuickStartEC2Instance.html#running-ec2-step-2
+sed -i -e "s/region = us-east-1/region = $region/g" /etc/awslogs/awscli.conf
 
 # Set the ip address of the node 
 # Get the ipv4 of the container instance
