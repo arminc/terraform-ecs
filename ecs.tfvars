@@ -1,6 +1,16 @@
 # A name to describe the environment we're creating.
 environment = "acc"
 
+# The AWS-CLI profile for the account to create resources in.
+aws_profile = "default"
+
+# The AWS region to create resources in.
+aws_region = "eu-west-1"
+
+# The AMI to seed ECS instances with.
+# Leave empty to use the latest Linux 2 ECS-optimized AMI by Amazon.
+aws_ecs_ami = ""
+
 # The IP range to attribute to the virtual network.
 # The allowed block size is between a /16 (65,536 addresses) and /28 (16 addresses).
 vpc_cidr = "10.0.0.0/16"
@@ -28,6 +38,3 @@ desired_capacity = 1
 
 # Size of instances in the ECS cluster.
 instance_type = "t2.micro"
-
-# The AMI to seed ECS instances with.
-ecs_aws_ami = "ami-95f8d2f3"

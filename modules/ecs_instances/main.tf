@@ -3,6 +3,23 @@
 # environment, cluster name, and the instance_group name.
 # That is also the reason why ecs_instances is a seperate module and not everything is created here.
 
+# Get latest Linux 2 ECS-optimized AMI by Amazon
+data "aws_ami" "latest_ecs_ami" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-ecs-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["amazon"]
+}
+
 resource "aws_security_group" "instance" {
   name        = "${var.environment}_${var.cluster}_${var.instance_group}"
   description = "Used in ${var.environment}"
@@ -29,7 +46,7 @@ resource "aws_security_group_rule" "outbound_internet_access" {
 # Default disk size for Docker is 22 gig, see http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
 resource "aws_launch_configuration" "launch" {
   name_prefix          = "${var.environment}_${var.cluster}_${var.instance_group}_"
-  image_id             = var.aws_ami
+  image_id             = var.aws_ami != "" ? var.aws_ami : data.aws_ami.latest_ecs_ami.image_id
   instance_type        = var.instance_type
   security_groups      = ["${aws_security_group.instance.id}"]
   user_data            = data.template_file.user_data.rendered

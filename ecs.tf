@@ -1,5 +1,6 @@
 provider "aws" {
-  region = "eu-west-1"
+  region  = var.aws_region
+  profile = var.aws_profile
 }
 
 module "ecs" {
@@ -17,7 +18,7 @@ module "ecs" {
   desired_capacity     = var.desired_capacity
   key_name             = aws_key_pair.ecs.key_name
   instance_type        = var.instance_type
-  ecs_aws_ami          = var.ecs_aws_ami
+  ecs_aws_ami          = var.aws_ecs_ami
 }
 
 resource "aws_key_pair" "ecs" {
@@ -27,6 +28,15 @@ resource "aws_key_pair" "ecs" {
 
 variable "environment" {
   description = "A name to describe the environment we're creating."
+}
+variable "aws_profile" {
+  description = "The AWS-CLI profile for the account to create resources in."
+}
+variable "aws_region" {
+  description = "The AWS region to create resources in."
+}
+variable "aws_ecs_ami" {
+  description = "The AMI to seed ECS instances with."
 }
 variable "vpc_cidr" {
   description = "The IP range to attribute to the virtual network."
@@ -54,9 +64,6 @@ variable "desired_capacity" {
 }
 variable "instance_type" {
   description = "Size of instances in the ECS cluster."
-}
-variable "ecs_aws_ami" {
-  description = "The AMI to seed ECS instances with."
 }
 
 output "default_alb_target_group" {

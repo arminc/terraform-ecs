@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# Timezone
-ln -fs /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime
-
-#Using script from http://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_cloudwatch_logs.html
+# Using script from http://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_cloudwatch_logs.html
 # Install awslogs and the jq JSON parser
 yum install -y awslogs jq aws-cli
 
@@ -60,7 +57,8 @@ EOF
 # Get availability zone where the container instance is located and remove the trailing character to give us the region.
 # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html
 region=$(curl 169.254.169.254/latest/meta-data/placement/availability-zone | sed s'/.$//')
-# Replace the logging region specified by our region env var with the region where the container instance is located.
+# Replace the default log region with the region where the container instance is located.
+# https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/QuickStartEC2Instance.html#running-ec2-step-2
 sed -i -e "s/region = us-east-1/region = $region/g" /etc/awslogs/awscli.conf
 
 # Set the ip address of the node 
